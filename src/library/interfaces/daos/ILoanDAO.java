@@ -3,7 +3,6 @@ package library.interfaces.daos;
 import java.util.Date;
 import java.util.List;
 
-import library.classes.entities.*;
 import library.interfaces.entities.IBook;
 import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;

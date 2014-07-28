@@ -2,7 +2,6 @@ package library.interfaces.daos;
 
 import java.util.List;
 
-import library.classes.entities.*;
 import library.interfaces.entities.IMember;
 
 public interface IMemberDAO {
