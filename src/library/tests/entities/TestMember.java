@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import library.classes.entities.Member;
 import library.interfaces.entities.ILoan;
+import library.interfaces.entities.IMember;
 import library.interfaces.entities.MemberState;
 
 import org.junit.After;
@@ -13,22 +15,34 @@ import org.junit.Test;
 
 public class TestMember {
 
+	String first = "first";
+	String last = "last";
+	String phone = "phone";
+	String email = "email";
+	int id = 1;
+	
+	Member member;
+	
 	@Before
 	public void setUp() throws Exception {
+		member = new Member(first, last, phone, email, id);
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		member = null;
 	}
 
 	@Test
 	public void testValidConstructor() {
-		fail("Not yet implemented");
+		Member testMember = new Member(first, last, phone, email, id);
+		assertNotNull(testMember);
+		assertTrue(testMember instanceof IMember);
 	}
 	
-	@Test
+	@Test(expected=RuntimeException.class)
 	public void testInvalidConstructor() {
-		fail("Not yet implemented");
+		new Member(first, last, null, email, id);
 	}
 	
 	@Test
