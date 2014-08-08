@@ -27,4 +27,10 @@ public class VerificationUtil {
 			throw new IllegalArgumentException("Object argument is null");
 		}
 	}
+	
+	public static void assertPositive(int arg) throws IllegalArgumentException {
+		if (arg < 0) {
+			throw new IllegalArgumentException("int arg is negative");
+		}
+	}
 }
