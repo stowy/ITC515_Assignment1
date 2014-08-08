@@ -67,20 +67,17 @@ public class Loan implements ILoan {
 
 	@Override
 	public IMember getBorrower() {
-		// TODO Auto-generated method stub
-		return null;
+		return member;
 	}
 
 	@Override
 	public IBook getBook() {
-		// TODO Auto-generated method stub
-		return null;
+		return book;
 	}
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return book.getID();
 	}
 	
 

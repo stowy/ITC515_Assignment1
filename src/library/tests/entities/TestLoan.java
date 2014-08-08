@@ -3,8 +3,6 @@ package library.tests.entities;
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -38,6 +36,9 @@ public class TestLoan {
 
 	@After
 	public void tearDown() throws Exception {
+		loan = null;
+		borrowDate = null;
+		dueDate = null;
 	}
 
 	@Test
