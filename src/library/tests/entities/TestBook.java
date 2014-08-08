@@ -73,7 +73,8 @@ public class TestBook {
 	
 	@Test
 	public void testGetState() {
-		fail("Not yet implemented");
+		BookState actual = book.getState();
+		assertEquals(BookState.AVAILABLE, actual);
 	}
 	
 	@Test
