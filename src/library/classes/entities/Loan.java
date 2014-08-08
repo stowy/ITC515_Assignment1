@@ -56,7 +56,13 @@ public class Loan implements ILoan {
 
 	@Override
 	public boolean checkOverDue(Date currentDate) throws RuntimeException {
-		
+		if (this.state != LoanState.CURRENT && this.state != LoanState.OVERDUE) {
+			throw new RuntimeException("Loan not current or overdue");
+		}
+		if (currentDate.after(dueDate)) {
+			this.state = LoanState.OVERDUE;
+		}
+		return this.state == LoanState.OVERDUE;
 	}
 
 	@Override

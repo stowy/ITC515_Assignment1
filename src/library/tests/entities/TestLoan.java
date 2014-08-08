@@ -94,6 +94,7 @@ public class TestLoan {
 	
 	@Test
 	public void testCheckOverDueNotOverDue() {
+		loan.commit();
 		assertFalse(loan.checkOverDue(Calendar.getInstance().getTime()));
 	}
 	
