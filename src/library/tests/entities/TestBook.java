@@ -114,8 +114,21 @@ public class TestBook {
 	}
 	
 	@Test
-	public void testRepair() {
-		fail("Not yet implemented");
+	public void testRepairBookDamaged() {
+		ILoan mockLoan = createMock(ILoan.class);
+ 		book.borrow(mockLoan);
+ 		book.returnBook(true);
+ 		BookState actualState = book.getState();
+ 		assertEquals(BookState.DAMAGED, actualState);
+ 		
+ 		book.repair();
+ 		actualState = book.getState();
+ 		assertEquals(BookState.AVAILABLE, actualState);
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testRepairBookNotDamaged() {
+		book.repair();
 	}
 	
 	@Test
