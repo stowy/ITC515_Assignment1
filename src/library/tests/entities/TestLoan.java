@@ -100,17 +100,24 @@ public class TestLoan {
 	
 	@Test
 	public void testGetBorrower() {
-		fail("Not yet implemented");
+		IMember actual = loan.getBorrower();
+		assertEquals(member, actual);
 	}
 	
 	@Test
 	public void testGetBook() {
-		fail("Not yet implemented");
+		IBook actual = loan.getBook();
+		assertEquals(book, actual);
 	}
 	
 	@Test
 	public void testGetID() {
-		fail("Not yet implemented");
+		int mockBookId = 1;
+		expect(book.getID()).andReturn(mockBookId);
+		replay(book);
+		int actual = loan.getID();
+		verify(book);
+		assertEquals(mockBookId, actual);
 	}
 
 }
