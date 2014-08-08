@@ -52,9 +52,10 @@ public class TestLoan {
 		new Loan(book, null, borrowDate, dueDate, loanId);
 	}
 	
-	@Test
-	public void testCommit() {
-		fail("Not yet implemented");
+	@Test(expected=RuntimeException.class)
+	public void testCommitLoanNotPending() {
+		loan.commit();
+		loan.commit();
 	}
 	
 	@Test

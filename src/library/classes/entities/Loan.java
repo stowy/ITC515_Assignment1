@@ -1,11 +1,13 @@
 package library.classes.entities;
 
 import static library.classes.utils.VerificationUtil.*;
+
 import java.util.Date;
 
 import library.interfaces.entities.IBook;
 import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
+import library.interfaces.entities.LoanState;
 
 public class Loan implements ILoan {
 	IBook book;
@@ -13,6 +15,7 @@ public class Loan implements ILoan {
 	Date borrowDate;
 	Date dueDate;
 	int loanId;
+	LoanState state;
 
 	public Loan(IBook book, IMember member, Date borrowDate, Date dueDate, int loanId) throws IllegalArgumentException {
 		assertNotNull(book);
@@ -70,5 +73,6 @@ public class Loan implements ILoan {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
 
 }
