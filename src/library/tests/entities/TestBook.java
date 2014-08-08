@@ -6,6 +6,7 @@ import library.interfaces.entities.BookState;
 import library.interfaces.entities.IBook;
 import library.interfaces.entities.ILoan;
 
+import static org.easymock.EasyMock.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,18 +43,58 @@ public class TestBook {
 	}
 	
 	@Test
-	public void testBorrow() {
-		fail("Not yet implemented");
+	public void testBorrowBookAvailable() {
+		ILoan mockLoan = createMock(ILoan.class);
+		book.borrow(mockLoan);
+		BookState actualState = book.getState();
+		assertEquals(BookState.ON_LOAN, actualState);
+		ILoan actualLoan = book.getLoan();
+		assertEquals(mockLoan, actualLoan);
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testBorrowBookNotAvailable() {
+		ILoan mockLoan = createMock(ILoan.class);
+		book.borrow(mockLoan);
+		ILoan newMockLoan = createMock(ILoan.class);
+		book.borrow(newMockLoan);
 	}
 	
 	@Test
-	public void testGetLoan() {
-		fail("Not yet implemented");
+	public void testGetLoanOnLoan() {
+		ILoan mockLoan = createMock(ILoan.class);
+		book.borrow(mockLoan);
+		ILoan actualLoan = book.getLoan();
+		assertEquals(mockLoan, actualLoan);
 	}
 	
 	@Test
-	public void testReturnBook() {
-		fail("Not yet implemented");
+	public void testGetLoanNotOnLoan() {
+		ILoan actual = book.getLoan();
+		assertEquals(null, actual);
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testReturnBookNotOnLoan() {
+		book.returnBook(false);
+	}
+	
+	@Test
+	public void testReturnBookDamaged() {
+		ILoan loan = createMock(ILoan.class);
+		book.borrow(loan);
+		book.returnBook(true);
+		BookState actual = book.getState();
+		assertEquals(BookState.DAMAGED, actual);
+	}
+	
+	@Test
+	public void testReturnBookNotDamaged() {
+		ILoan loan = createMock(ILoan.class);
+		book.borrow(loan);
+		book.returnBook(false);
+		BookState actual = book.getState();
+		assertEquals(BookState.AVAILABLE, actual);
 	}
 	
 	@Test(expected=RuntimeException.class)
@@ -103,7 +144,7 @@ public class TestBook {
 	}
 	
 	@Test
-	public void testgetID() {
+	public void testGetID() {
 		int actual = book.getID();
 		assertEquals(bookId, actual);
 	}
