@@ -45,9 +45,11 @@ public class Book implements IBook {
 	}
 
 	@Override
-	public void lose() {
-		// TODO Auto-generated method stub
-
+	public void lose() throws RuntimeException {
+		if (this.state != BookState.ON_LOAN) {
+			throw new RuntimeException("Book not currently on loan");
+		}
+		this.state = BookState.LOST;
 	}
 
 	@Override
