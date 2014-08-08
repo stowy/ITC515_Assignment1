@@ -8,6 +8,10 @@ import library.interfaces.entities.IMember;
 
 public class Loan implements ILoan {
 
+	public Loan(IBook book, IMember member, Date borrowDate, Date dueDate, int loanId) {
+		
+	}
+	
 	@Override
 	public void commit() {
 		// TODO Auto-generated method stub
