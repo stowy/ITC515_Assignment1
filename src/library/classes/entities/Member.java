@@ -15,6 +15,8 @@ public class Member implements IMember {
 	private String email;
 	private int id;
 	
+	private MemberState state;
+	
 	
 	public Member(String first, String last, String phone, String email, int id) throws IllegalArgumentException {
 		assertNotNullOrEmpty(first);
@@ -28,6 +30,7 @@ public class Member implements IMember {
 		this.phone = phone;
 		this.email = email;
 		this.id = id;
+		this.state = MemberState.BORROWING_ALLOWED;
 	}
 	
 	@Override
@@ -92,8 +95,7 @@ public class Member implements IMember {
 
 	@Override
 	public MemberState getState() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.state;
 	}
 
 	@Override
