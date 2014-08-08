@@ -12,6 +12,7 @@ public class Book implements IBook {
 	private String callNumber;
 	private int bookId;
 	private BookState state;
+	private ILoan loan;
 	
 	public Book(String author, String title, String callNumber, int bookId) throws IllegalArgumentException {
 		VerificationUtil.assertNotNullOrEmpty(author);
@@ -27,15 +28,17 @@ public class Book implements IBook {
 	}
 	
 	@Override
-	public void borrow(ILoan loan) {
-		// TODO Auto-generated method stub
-
+	public void borrow(ILoan loan) throws RuntimeException {
+		if (this.state != BookState.AVAILABLE) {
+			throw new RuntimeException("Book not avaialable");
+		}
+		this.state = BookState.ON_LOAN;
+		this.loan = loan;
 	}
 
 	@Override
 	public ILoan getLoan() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.loan;
 	}
 
 	@Override
