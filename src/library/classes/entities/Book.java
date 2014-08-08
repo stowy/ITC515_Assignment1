@@ -1,13 +1,27 @@
 package library.classes.entities;
 
+import library.classes.utils.VerificationUtil;
 import library.interfaces.entities.BookState;
 import library.interfaces.entities.IBook;
 import library.interfaces.entities.ILoan;
 
 public class Book implements IBook {
 
-	public Book(String author, String title, String callNumber, int bookId) {
+	private String author;
+	private String title;
+	private String callNumber;
+	private int bookId; 
+	
+	public Book(String author, String title, String callNumber, int bookId) throws IllegalArgumentException {
+		VerificationUtil.assertNotNullOrEmpty(author);
+		VerificationUtil.assertNotNullOrEmpty(title);
+		VerificationUtil.assertNotNullOrEmpty(callNumber);
+		VerificationUtil.assertNonZeroPositive(bookId);
 		
+		this.author = author;
+		this.title = title;
+		this.callNumber = callNumber;
+		this.bookId = bookId;
 	}
 	
 	@Override
