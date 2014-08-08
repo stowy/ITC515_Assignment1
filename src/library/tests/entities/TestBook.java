@@ -56,9 +56,16 @@ public class TestBook {
 		fail("Not yet implemented");
 	}
 	
+	@Test(expected=RuntimeException.class)
+	public void testLoseNotOnLoan() {
+		book.lose();
+	}
+	
 	@Test
-	public void testLose() {
-		fail("Not yet implemented");
+	public void testLoseOnLoan() {
+		book.lose();
+		BookState actual = book.getState();
+		assertEquals(BookState.LOST, actual);
 	}
 	
 	@Test
