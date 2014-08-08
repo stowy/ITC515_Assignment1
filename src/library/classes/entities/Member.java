@@ -15,6 +15,8 @@ public class Member implements IMember {
 	private String email;
 	private int id;
 	
+	private float finesOwing;
+	
 	private MemberState state;
 	
 	
@@ -31,6 +33,7 @@ public class Member implements IMember {
 		this.email = email;
 		this.id = id;
 		this.state = MemberState.BORROWING_ALLOWED;
+		this.finesOwing = 0;
 	}
 	
 	@Override
@@ -47,32 +50,36 @@ public class Member implements IMember {
 
 	@Override
 	public boolean hasFinesPayable() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.finesOwing > 0;
 	}
 
 	@Override
 	public boolean hasReachedFineLimit() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.finesOwing >= FINE_LIMIT;
 	}
 
 	@Override
 	public float getFineAmount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.finesOwing;
 	}
 
 	@Override
-	public void addFine(float fine) {
-		// TODO Auto-generated method stub
-
+	public void addFine(float fine) throws IllegalArgumentException {
+		assertPositive(fine);
+		this.finesOwing += fine;
+		if (hasReachedFineLimit()) {
+			this.state = MemberState.BORROWING_DISALLOWED;
+		}
 	}
 
 	@Override
 	public void payFine(float payment) {
-		// TODO Auto-generated method stub
-
+		assertPositive(payment);
+		assertLess(payment, this.finesOwing);
+		this.finesOwing -= payment;
+		if (this.state == MemberState.BORROWING_DISALLOWED && !hasReachedFineLimit() && !hasReachedLoanLimit()) {
+			this.state = MemberState.BORROWING_ALLOWED;
+		}
 	}
 
 	@Override

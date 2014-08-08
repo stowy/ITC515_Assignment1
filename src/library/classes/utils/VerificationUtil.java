@@ -33,4 +33,16 @@ public class VerificationUtil {
 			throw new IllegalArgumentException("int arg is negative");
 		}
 	}
+	
+	public static void assertPositive(float arg) throws IllegalArgumentException {
+		if (arg < 0) {
+			throw new IllegalArgumentException("int arg is negative");
+		}
+	}
+	
+	public static void assertLess(float lesserAmount, float greaterAmount) throws IllegalArgumentException {
+		if (lesserAmount > greaterAmount) {
+			throw new IllegalArgumentException("int arg is negative");
+		}
+	}
 }
