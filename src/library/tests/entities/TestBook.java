@@ -106,6 +106,8 @@ public class TestBook {
 	
 	@Test
 	public void testLoseOnLoan() {
+		ILoan loan = createMock(ILoan.class);
+		book.borrow(loan);
 		book.lose();
 		BookState actual = book.getState();
 		assertEquals(BookState.LOST, actual);
