@@ -102,27 +102,32 @@ public class TestMember {
 	
 	@Test
 	public void testGetFirstName() {
-		fail("Not yet implemented");
+		String actual = member.getFirstName();
+		assertEquals(first, actual);
 	}
 	
 	@Test
 	public void testGetLastName() {
-		fail("Not yet implemented");
+		String actual = member.getLastName();
+		assertEquals(last, actual);
 	}
 	
 	@Test
 	public void testGetContactPhone() {
-		fail("Not yet implemented");
+		String actual = member.getContactPhone();
+		assertEquals(phone, actual);
 	}
 	
 	@Test
 	public void testGetEmailAddress() {
-		fail("Not yet implemented");
+		String actual = member.getEmailAddress();
+		assertEquals(email, actual);
 	}
 	
 	@Test
 	public void testGetID() {
-		fail("Not yet implemented");
+		int actual = member.getID();
+		assertEquals(id, actual);
 	}
 
 }
