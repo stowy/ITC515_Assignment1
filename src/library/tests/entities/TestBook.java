@@ -93,8 +93,10 @@ public class TestBook {
 		ILoan loan = createMock(ILoan.class);
 		book.borrow(loan);
 		book.returnBook(false);
-		BookState actual = book.getState();
-		assertEquals(BookState.AVAILABLE, actual);
+		BookState actualState = book.getState();
+		assertEquals(BookState.AVAILABLE, actualState);
+		ILoan actualLoan = book.getLoan();
+		assertEquals(null, actualLoan);
 	}
 	
 	@Test(expected=RuntimeException.class)

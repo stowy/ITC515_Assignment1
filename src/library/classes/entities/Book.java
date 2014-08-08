@@ -43,8 +43,11 @@ public class Book implements IBook {
 
 	@Override
 	public void returnBook(boolean damaged) {
-		// TODO Auto-generated method stub
-
+		if (this.state != BookState.ON_LOAN) {
+			throw new RuntimeException("Book not currently on loan");
+		}
+		this.state = damaged ? BookState.DAMAGED : BookState.AVAILABLE;
+		this.loan = null;
 	}
 
 	@Override
