@@ -98,32 +98,27 @@ public class Member implements IMember {
 
 	@Override
 	public String getFirstName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.first;
 	}
 
 	@Override
 	public String getLastName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.last;
 	}
 
 	@Override
 	public String getContactPhone() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.phone;
 	}
 
 	@Override
 	public String getEmailAddress() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.email;
 	}
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id;
 	}
 
 }
