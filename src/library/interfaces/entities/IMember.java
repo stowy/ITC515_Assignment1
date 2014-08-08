@@ -1,6 +1,5 @@
 package library.interfaces.entities;
 
-import java.util.Date;
 import java.util.List;
 
 public interface IMember {
