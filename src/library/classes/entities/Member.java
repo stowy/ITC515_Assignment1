@@ -1,5 +1,6 @@
 package library.classes.entities;
 
+import static library.classes.utils.VerificationUtil.*;
 import java.util.List;
 
 import library.interfaces.entities.ILoan;
@@ -8,8 +9,25 @@ import library.interfaces.entities.MemberState;
 
 public class Member implements IMember {
 
+	private String first;
+	private String last;
+	private String phone;
+	private String email;
+	private int id;
+	
+	
 	public Member(String first, String last, String phone, String email, int id) throws IllegalArgumentException {
+		assertNotNullOrEmpty(first);
+		assertNotNullOrEmpty(last);
+		assertNotNullOrEmpty(phone);
+		assertNotNullOrEmpty(email);
+		assertNonZeroPositive(id);
 		
+		this.first = first;
+		this.last = last;
+		this.phone = phone;
+		this.email = email;
+		this.id = id;
 	}
 	
 	@Override
