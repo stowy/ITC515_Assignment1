@@ -58,9 +58,9 @@ public class TestLoan {
 		loan.commit();
 	}
 	
-	@Test
+	@Test(expected=RuntimeException.class)
 	public void testComplete() {
-		fail("Not yet implemented");
+		loan.complete();
 	}
 	
 	@Test

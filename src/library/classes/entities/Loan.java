@@ -42,7 +42,7 @@ public class Loan implements ILoan {
 	}
 
 	@Override
-	public void complete() {
+	public void complete() throws RuntimeException {
 		// TODO Auto-generated method stub
 
 	}
