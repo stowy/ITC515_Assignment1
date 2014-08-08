@@ -64,13 +64,37 @@ public class TestLoan {
 	}
 	
 	@Test
-	public void testIsOverDue() {
-		fail("Not yet implemented");
+	public void testIsOverDueNotOverDue() {
+		assertFalse(loan.isOverDue());
 	}
 	
 	@Test
-	public void testCheckOverDue() {
-		fail("Not yet implemented");
+	public void testCheckOverDueOverDue() {
+		loan.commit();
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, ILoan.LOAN_PERIOD + 1);
+		Date overDueDate = calendar.getTime();
+		assertTrue(loan.checkOverDue(overDueDate));
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testCheckOverDueLoanPending() {
+		loan.checkOverDue(Calendar.getInstance().getTime());
+	}
+	
+	@Test
+	public void testIsOverDueOverDue() {
+		loan.commit();
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, ILoan.LOAN_PERIOD + 1);
+		Date overDueDate = calendar.getTime();
+		assertTrue(loan.checkOverDue(overDueDate));
+		assertTrue(loan.isOverDue());
+	}
+	
+	@Test
+	public void testCheckOverDueNotOverDue() {
+		assertFalse(loan.checkOverDue(Calendar.getInstance().getTime()));
 	}
 	
 	@Test

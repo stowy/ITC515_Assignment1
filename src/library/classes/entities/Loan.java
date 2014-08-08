@@ -51,14 +51,12 @@ public class Loan implements ILoan {
 
 	@Override
 	public boolean isOverDue() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.state == LoanState.OVERDUE;
 	}
 
 	@Override
-	public boolean checkOverDue(Date currentDate) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean checkOverDue(Date currentDate) throws RuntimeException {
+		
 	}
 
 	@Override
