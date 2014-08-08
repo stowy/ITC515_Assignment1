@@ -57,27 +57,55 @@ public class TestMember {
 	
 	@Test
 	public void testHasFinesPayable() {
-		fail("Not yet implemented");
+		member.addFine(10);
+		assertTrue(member.hasFinesPayable());
 	}
 	
 	@Test
 	public void testHasReachedFineLimit() {
-		fail("Not yet implemented");
+		member.addFine(Member.FINE_LIMIT + 1);
+		assertTrue(member.hasReachedFineLimit());
 	}
 	
 	@Test
 	public void testGetFineAmount() {
-		fail("Not yet implemented");
+		float fineAmount = 0;
+		float actual = member.getFineAmount();
+		assertEquals(fineAmount, actual, 0);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testAddFineNegativeAmount() {
+		member.addFine(-1);
 	}
 	
 	@Test
 	public void testAddFine() {
-		fail("Not yet implemented");
+		float fineAmount = 10;
+		member.addFine(fineAmount);
+		float actual = member.getFineAmount();
+		assertEquals(fineAmount, actual, 0);
 	}
 
 	@Test
 	public void testPayFine() {
-		fail("Not yet implemented");
+		float fineAmount = 10;
+		member.addFine(fineAmount);
+		float actual = member.getFineAmount();
+		assertEquals(fineAmount, actual, 0);
+		member.payFine(fineAmount);
+		actual = member.getFineAmount();
+		assertEquals(0, actual, 0);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testPayFineTooMuch() {
+		member.payFine(1);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testPayFineNegative() {
+		member.payFine(-1);
 	}
 	
 	@Test
