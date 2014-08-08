@@ -10,7 +10,8 @@ public class Book implements IBook {
 	private String author;
 	private String title;
 	private String callNumber;
-	private int bookId; 
+	private int bookId;
+	private BookState state;
 	
 	public Book(String author, String title, String callNumber, int bookId) throws IllegalArgumentException {
 		VerificationUtil.assertNotNullOrEmpty(author);
@@ -22,6 +23,7 @@ public class Book implements IBook {
 		this.title = title;
 		this.callNumber = callNumber;
 		this.bookId = bookId;
+		this.state = BookState.AVAILABLE;
 	}
 	
 	@Override
@@ -62,8 +64,7 @@ public class Book implements IBook {
 
 	@Override
 	public BookState getState() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.state;
 	}
 
 	@Override
