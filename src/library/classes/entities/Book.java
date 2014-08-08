@@ -59,9 +59,11 @@ public class Book implements IBook {
 	}
 
 	@Override
-	public void repair() {
-		// TODO Auto-generated method stub
-
+	public void repair() throws RuntimeException {
+		if (this.state != BookState.DAMAGED) {
+			throw new RuntimeException("Book not damaged");
+		}
+		this.state = BookState.AVAILABLE;
 	}
 
 	@Override
