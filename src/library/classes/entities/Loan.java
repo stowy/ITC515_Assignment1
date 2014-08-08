@@ -30,12 +30,15 @@ public class Loan implements ILoan {
 		this.borrowDate = borrowDate;
 		this.dueDate = dueDate;
 		this.loanId = loanId;
+		this.state = LoanState.PENDING;
 	}
 	
 	@Override
 	public void commit() {
-		// TODO Auto-generated method stub
-
+		if (this.state != LoanState.PENDING) {
+			throw new RuntimeException("Loan not pending");
+		}
+		this.state = LoanState.CURRENT;
 	}
 
 	@Override
