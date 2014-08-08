@@ -39,7 +39,7 @@ public class TestBook {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidConstructor() {
-		Book book = new Book(author, title, null, bookId);
+		new Book(author, title, null, bookId);
 	}
 	
 	@Test
