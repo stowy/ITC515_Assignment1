@@ -1,5 +1,7 @@
 package library.classes.utils;
 
+import java.util.Date;
+
 public class VerificationUtil {
 	
 	public static void assertNotNullOrEmpty(String string) throws IllegalArgumentException {
@@ -11,6 +13,18 @@ public class VerificationUtil {
 	public static void assertNonZeroPositive(int arg) throws IllegalArgumentException {
 		if (arg <= 0) {
 			throw new IllegalArgumentException("int argument is non-positive");
+		}
+	}
+	
+	public static void assertNotNull(Object arg) throws IllegalArgumentException {
+		if (arg == null) {
+			throw new IllegalArgumentException("Object argument is null");
+		}
+	}
+	
+	public static void assertLater(Date earlierDate, Date laterDate) throws IllegalArgumentException {
+		if (laterDate.before(earlierDate)) {
+			throw new IllegalArgumentException("Object argument is null");
 		}
 	}
 }

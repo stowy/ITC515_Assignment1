@@ -1,5 +1,6 @@
 package library.classes.entities;
 
+import static library.classes.utils.VerificationUtil.*;
 import java.util.Date;
 
 import library.interfaces.entities.IBook;
@@ -7,9 +8,25 @@ import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
 
 public class Loan implements ILoan {
+	IBook book;
+	IMember member;
+	Date borrowDate;
+	Date dueDate;
+	int loanId;
 
-	public Loan(IBook book, IMember member, Date borrowDate, Date dueDate, int loanId) {
+	public Loan(IBook book, IMember member, Date borrowDate, Date dueDate, int loanId) throws IllegalArgumentException {
+		assertNotNull(book);
+		assertNotNull(member);
+		assertNotNull(borrowDate);
+		assertNotNull(dueDate);
+		assertLater(borrowDate, dueDate);
+		assertNonZeroPositive(loanId);
 		
+		this.book = book;
+		this.member = member;
+		this.borrowDate = borrowDate;
+		this.dueDate = dueDate;
+		this.loanId = loanId;
 	}
 	
 	@Override
