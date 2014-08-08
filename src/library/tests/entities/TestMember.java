@@ -97,7 +97,8 @@ public class TestMember {
 	
 	@Test
 	public void testGetState() {
-		fail("Not yet implemented");
+		MemberState actual = member.getState();
+		assertEquals(MemberState.BORROWING_ALLOWED, actual);
 	}
 	
 	@Test
