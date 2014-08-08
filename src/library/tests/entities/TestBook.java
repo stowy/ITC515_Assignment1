@@ -131,9 +131,19 @@ public class TestBook {
 		book.repair();
 	}
 	
+	@Test(expected=RuntimeException.class)
+	public void testDisposeOnLoan() {
+		ILoan mockLoan = createMock(ILoan.class);
+		book.borrow(mockLoan);
+		assertEquals(BookState.ON_LOAN, book.getState());
+		book.dispose();
+	}
+	
 	@Test
-	public void testDispose() {
-		fail("Not yet implemented");
+	public void testDisposeNotOnLoan() {
+		book.dispose();
+		BookState actual = book.getState();
+		assertEquals(BookState.DISPOSED, actual);
 	}
 	
 	@Test
