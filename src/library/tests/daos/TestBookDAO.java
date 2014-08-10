@@ -6,30 +6,45 @@ import static org.easymock.EasyMock.*;
 import java.util.List;
 
 import library.classes.daos.BookDAO;
+import library.classes.daos.BookHelper;
+import library.classes.entities.Book;
 import library.interfaces.daos.IBookDAO;
 import library.interfaces.daos.IBookHelper;
 import library.interfaces.entities.IBook;
 
+import org.easymock.EasyMock;
+import org.easymock.internal.EasyMockProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TestBookDAO {
+	
+	private String author = "author";
+	private String title = "title";
+	private String callNo = "callNo";
+	
+	private BookDAO bookDAO;
+	private IBookHelper bookHelper;
 
 	@Before
 	public void setUp() throws Exception {
+		bookHelper = createMock(BookHelper.class);
+		bookDAO = new BookDAO(bookHelper);
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		bookDAO = null;
+		bookHelper = null;
 	}
 
 	@Test
 	public void testValidConstructor() {
 		IBookHelper helper = createMock(IBookHelper.class);
-		BookDAO bookDAO = new BookDAO(helper);
-		assertNotNull(bookDAO);
-		assertTrue(bookDAO instanceof IBookDAO);
+		BookDAO testBookDAO = new BookDAO(helper);
+		assertNotNull(testBookDAO);
+		assertTrue(testBookDAO instanceof IBookDAO);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -39,7 +54,16 @@ public class TestBookDAO {
 	
 	@Test
 	public void testAddBook() {
-		fail("Not yet implemented");
+		IBook mockBook = createMock(Book.class);
+		expect(bookHelper.makeBook(author, title, callNo, EasyMock.anyInt())).andReturn(mockBook);
+		replay(bookHelper);
+		
+		bookDAO.addBook(author, title, callNo);
+		verify(bookHelper);
+		
+		List<IBook> books = bookDAO.listBooks();
+		assertNotNull(books);
+		assertTrue(books.contains(mockBook));
 	}
 
 	@Test
