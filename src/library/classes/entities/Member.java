@@ -1,6 +1,8 @@
 package library.classes.entities;
 
 import static library.classes.utils.VerificationUtil.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import library.interfaces.entities.ILoan;
@@ -16,6 +18,8 @@ public class Member implements IMember {
 	private int id;
 	
 	private float finesOwing;
+	
+	private List<ILoan> loans;
 	
 	private MemberState state;
 	
@@ -34,6 +38,7 @@ public class Member implements IMember {
 		this.id = id;
 		this.state = MemberState.BORROWING_ALLOWED;
 		this.finesOwing = 0;
+		this.loans = new ArrayList<ILoan>();
 	}
 	
 	@Override
@@ -83,15 +88,17 @@ public class Member implements IMember {
 	}
 
 	@Override
-	public void addLoan(ILoan loan) {
-		// TODO Auto-generated method stub
-
+	public void addLoan(ILoan loan) throws IllegalArgumentException {
+		assertNotNull(loan);
+		if (this.state == MemberState.BORROWING_DISALLOWED) {
+			throw new IllegalArgumentException("Borrowing disallowed");
+		}
+		this.loans.add(loan);
 	}
 
 	@Override
 	public List<ILoan> getLoans() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.loans;
 	}
 
 	@Override
