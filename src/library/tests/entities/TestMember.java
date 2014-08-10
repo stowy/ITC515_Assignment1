@@ -2,8 +2,11 @@ package library.tests.entities;
 
 import static org.junit.Assert.*;
 
+import static org.easymock.EasyMock.*;
+import java.util.ArrayList;
 import java.util.List;
 
+import library.classes.entities.Loan;
 import library.classes.entities.Member;
 import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
@@ -47,12 +50,22 @@ public class TestMember {
 	
 	@Test
 	public void testHasOverDueLoans() {
-		fail("Not yet implemented");
+		ILoan mockLoan = createMock(ILoan.class);
+		expect(mockLoan.isOverDue()).andReturn(true);
+		replay(mockLoan);
+		member.addLoan(mockLoan);
+		assertTrue(member.hasOverDueLoans());
+		verify(mockLoan);
 	}
 	
 	@Test
 	public void testHasReachedLoanLimit() {
-		fail("Not yet implemented");
+		for (int i =0; i < Member.LOAN_LIMIT; i ++) {
+			member.addLoan(createMock(ILoan.class));
+		}
+		assertTrue(member.getLoans().size() == Member.LOAN_LIMIT);
+		assertTrue(member.hasReachedLoanLimit());
+		assertTrue(member.getState() == MemberState.BORROWING_DISALLOWED);
 	}
 	
 	@Test
@@ -65,6 +78,7 @@ public class TestMember {
 	public void testHasReachedFineLimit() {
 		member.addFine(Member.FINE_LIMIT + 1);
 		assertTrue(member.hasReachedFineLimit());
+		assertTrue(member.getState() == MemberState.BORROWING_DISALLOWED);
 	}
 	
 	@Test
@@ -110,17 +124,43 @@ public class TestMember {
 	
 	@Test
 	public void testAddLoan() {
-		fail("Not yet implemented");
+		ILoan mockLoan = createMock(ILoan.class);
+		member.addLoan(mockLoan);
+		List<ILoan> loans = member.getLoans();
+		assertNotNull(loans);
+		assertTrue(loans.contains(mockLoan));
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testAddLoanBorrowingDisallowed() {
+		member.addFine(Member.FINE_LIMIT + 1);
+		assertTrue(member.getState() == MemberState.BORROWING_DISALLOWED);
+		ILoan mockLoan = createMock(ILoan.class);
+		member.addLoan(mockLoan);
 	}
 	
 	@Test
 	public void testGetLoans() {
-		fail("Not yet implemented");
+		List<ILoan> actual = member.getLoans();
+		assertNotNull(actual);
+		assertTrue(actual.size() == 0);
 	}
 	
 	@Test
 	public void testRemoveLoan() {
-		fail("Not yet implemented");
+		ILoan mockLoan = createMock(ILoan.class);
+		member.addLoan(mockLoan);
+		List<ILoan> loans = member.getLoans();
+		assertNotNull(loans);
+		assertTrue(loans.contains(mockLoan));
+		member.removeLoan(mockLoan);
+		assertFalse(member.getLoans().contains(mockLoan));
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testRemoveLoanNotPresent() {
+		ILoan mockLoan = createMock(ILoan.class);
+		member.removeLoan(mockLoan);
 	}
 	
 	@Test
