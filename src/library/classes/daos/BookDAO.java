@@ -1,5 +1,6 @@
 package library.classes.daos;
 
+import static library.classes.utils.VerificationUtil.*;
 import java.util.List;
 
 import library.interfaces.daos.IBookDAO;
@@ -8,8 +9,11 @@ import library.interfaces.entities.IBook;
 
 public class BookDAO implements IBookDAO {
 	
-	public BookDAO(IBookHelper bookHelper) {
-		// TODO Auto-generated constructor stub
+	private IBookHelper bookHelper;
+	
+	public BookDAO(IBookHelper bookHelper) throws IllegalArgumentException {
+		assertNotNull(bookHelper);
+		this.bookHelper = bookHelper;
 	}
 	
 	
