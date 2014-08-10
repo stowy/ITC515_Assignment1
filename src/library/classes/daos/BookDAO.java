@@ -1,6 +1,8 @@
 package library.classes.daos;
 
 import static library.classes.utils.VerificationUtil.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import library.interfaces.daos.IBookDAO;
@@ -10,17 +12,22 @@ import library.interfaces.entities.IBook;
 public class BookDAO implements IBookDAO {
 	
 	private IBookHelper bookHelper;
+	private int nextID = 1;
+	private List<IBook> books;
 	
 	public BookDAO(IBookHelper bookHelper) throws IllegalArgumentException {
 		assertNotNull(bookHelper);
 		this.bookHelper = bookHelper;
+		this.books = new ArrayList<IBook>();
 	}
 	
 	
 	@Override
-	public IBook addBook(String author, String title, String callNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public IBook addBook(String author, String title, String callNo) throws IllegalArgumentException {
+		IBook book = bookHelper.makeBook(author, title, callNo, nextID);
+		books.add(book);
+		nextID++;
+		return book;
 	}
 
 	@Override
@@ -31,8 +38,7 @@ public class BookDAO implements IBookDAO {
 
 	@Override
 	public List<IBook> listBooks() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.books;
 	}
 
 	@Override
