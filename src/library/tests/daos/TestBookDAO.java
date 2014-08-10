@@ -96,7 +96,20 @@ public class TestBookDAO {
 
 	@Test
 	public void testFindBooksByAuthor() {
-		fail("Not yet implemented");
+		IBook mockBook = createMock(IBook.class);
+		expect(bookHelper.makeBook(EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyInt())).andReturn(mockBook);
+		expect(mockBook.getAuthor()).andReturn(author);
+		replay(bookHelper);
+		replay(mockBook);
+		
+		bookDAO.addBook(author, title, callNo);
+		List<IBook> actual = bookDAO.findBooksByAuthor(author);
+		
+		verify(bookHelper);
+		verify(mockBook);
+		assertNotNull(actual);
+		assertTrue(actual.contains(mockBook));
+		assertTrue(actual.size() == 1);
 	}
 
 	@Test
