@@ -49,8 +49,7 @@ public class Member implements IMember {
 
 	@Override
 	public boolean hasReachedLoanLimit() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.loans.size() >= LOAN_LIMIT;
 	}
 
 	@Override
@@ -94,6 +93,9 @@ public class Member implements IMember {
 			throw new IllegalArgumentException("Borrowing disallowed");
 		}
 		this.loans.add(loan);
+		if (hasReachedLoanLimit()) {
+			this.state = MemberState.BORROWING_DISALLOWED;
+		}
 	}
 
 	@Override
@@ -102,9 +104,15 @@ public class Member implements IMember {
 	}
 
 	@Override
-	public void removeLoan(ILoan loan) {
-		// TODO Auto-generated method stub
-
+	public void removeLoan(ILoan loan) throws IllegalArgumentException {
+		assertNotNull(loan);
+		if (!this.loans.contains(loan)) {
+			throw new IllegalArgumentException("Loan not present");
+		}
+		this.loans.remove(loan);
+		if (this.state == MemberState.BORROWING_DISALLOWED && !hasReachedLoanLimit() && !hasReachedFineLimit()) {
+			this.state = MemberState.BORROWING_ALLOWED;
+		}
 	}
 
 	@Override
