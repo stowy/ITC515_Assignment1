@@ -3,10 +3,16 @@ package library.classes.daos;
 import java.util.List;
 
 import library.interfaces.daos.IBookDAO;
+import library.interfaces.daos.IBookHelper;
 import library.interfaces.entities.IBook;
 
 public class BookDAO implements IBookDAO {
-
+	
+	public BookDAO(IBookHelper bookHelper) {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 	@Override
 	public IBook addBook(String author, String title, String callNo) {
 		// TODO Auto-generated method stub

@@ -1,9 +1,13 @@
 package library.tests.daos;
 
 import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 
 import java.util.List;
 
+import library.classes.daos.BookDAO;
+import library.interfaces.daos.IBookDAO;
+import library.interfaces.daos.IBookHelper;
 import library.interfaces.entities.IBook;
 
 import org.junit.After;
@@ -22,12 +26,15 @@ public class TestBookDAO {
 
 	@Test
 	public void testValidConstructor() {
-		fail("Not yet implemented");
+		IBookHelper helper = createMock(IBookHelper.class);
+		BookDAO bookDAO = new BookDAO(helper);
+		assertNotNull(bookDAO);
+		assertTrue(bookDAO instanceof IBookDAO);
 	}
 	
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidConstructor() {
-		fail("Not yet implemented");
+		new BookDAO(null);
 	}
 	
 	@Test
