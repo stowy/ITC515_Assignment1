@@ -6,14 +6,11 @@ import static org.easymock.EasyMock.*;
 import java.util.List;
 
 import library.classes.daos.BookDAO;
-import library.classes.daos.BookHelper;
-import library.classes.entities.Book;
 import library.interfaces.daos.IBookDAO;
 import library.interfaces.daos.IBookHelper;
 import library.interfaces.entities.IBook;
 
 import org.easymock.EasyMock;
-import org.easymock.internal.EasyMockProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +26,7 @@ public class TestBookDAO {
 
 	@Before
 	public void setUp() throws Exception {
-		bookHelper = createMock(BookHelper.class);
+		bookHelper = createMock(IBookHelper.class);
 		bookDAO = new BookDAO(bookHelper);
 	}
 
@@ -54,8 +51,8 @@ public class TestBookDAO {
 	
 	@Test
 	public void testAddBook() {
-		IBook mockBook = createMock(Book.class);
-		expect(bookHelper.makeBook(author, title, callNo, EasyMock.anyInt())).andReturn(mockBook);
+		IBook mockBook = createMock(IBook.class);
+		expect(bookHelper.makeBook(EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyInt())).andReturn(mockBook);
 		replay(bookHelper);
 		
 		bookDAO.addBook(author, title, callNo);
@@ -73,7 +70,9 @@ public class TestBookDAO {
 
 	@Test
 	public void testListBooks() {
-		fail("Not yet implemented");
+		List<IBook> books = bookDAO.listBooks();
+		assertNotNull(books);
+		assertTrue(books.size() == 0);
 	}
 
 	@Test
