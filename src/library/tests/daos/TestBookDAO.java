@@ -64,8 +64,27 @@ public class TestBookDAO {
 	}
 
 	@Test
-	public void testGetBookByID() {
-		fail("Not yet implemented");
+	public void testGetBookByIDFoundBook() {
+		int id = 1;
+		IBook mockBook = createMock(IBook.class);
+		expect(bookHelper.makeBook(EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyInt())).andReturn(mockBook);
+		expect(mockBook.getID()).andReturn(id);
+		replay(bookHelper);
+		replay(mockBook);
+		
+		bookDAO.addBook(author, title, callNo);
+		IBook actual = bookDAO.getBookByID(id);
+		verify(bookHelper);
+		verify(mockBook);
+		
+		assertEquals(mockBook, actual);
+	}
+	
+	@Test
+	public void testGetBookByIDBookNotFound() {
+		int id = 1;
+		IBook book = bookDAO.getBookByID(id);
+		assertNull(book);
 	}
 
 	@Test
