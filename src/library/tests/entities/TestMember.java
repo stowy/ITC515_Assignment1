@@ -3,10 +3,8 @@ package library.tests.entities;
 import static org.junit.Assert.*;
 
 import static org.easymock.EasyMock.*;
-import java.util.ArrayList;
 import java.util.List;
 
-import library.classes.entities.Loan;
 import library.classes.entities.Member;
 import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
