@@ -1,12 +1,21 @@
 package library.classes.daos;
 
 import java.util.List;
+import static library.classes.utils.VerificationUtil.*;
 
 import library.interfaces.daos.IMemberDAO;
+import library.interfaces.daos.IMemberHelper;
 import library.interfaces.entities.IMember;
 
 public class MemberDAO implements IMemberDAO {
 
+	IMemberHelper memberHelper;
+	
+	public MemberDAO(IMemberHelper memberHelper) throws IllegalArgumentException {
+		assertNotNull(memberHelper);
+		this.memberHelper = memberHelper;
+	}
+	
 	@Override
 	public IMember addMember(String firstName, String lastName,
 			String ContactPhone, String emailAddress) {
