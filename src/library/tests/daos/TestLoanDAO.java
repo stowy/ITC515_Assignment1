@@ -41,7 +41,7 @@ public class TestLoanDAO {
 		calendar.add(Calendar.DAY_OF_YEAR, ILoan.LOAN_PERIOD);
 		dueDate = calendar.getTime();
 		
-		mockLoan = createNiceMock(ILoan.class);
+		mockLoan = createMock(ILoan.class);
 		mockBook = createMock(IBook.class);
 		mockMember = createMock(IMember.class);
 	}
@@ -190,6 +190,8 @@ public class TestLoanDAO {
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
 		expect(mockLoan.getBorrower()).andReturn(mockMember);
 		expect(mockLoan.getBook()).andReturn(mockBook);
+		mockLoan.commit();
+		expectLastCall().once();
 		expect(mockLoan.getID()).andReturn(id);
 		
 		//Replay mocks
@@ -221,7 +223,28 @@ public class TestLoanDAO {
 	
 	@Test
 	public void testUpdateOverDueStatus() {
-		fail("Not yet implemented");
+		//Set up expectations
+		int id = 1;
+		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
+		expect(mockLoan.getBorrower()).andReturn(mockMember);
+		expect(mockLoan.getBook()).andReturn(mockBook);
+		mockLoan.commit();
+		expectLastCall().once();
+		expect(mockLoan.getID()).andReturn(id);
+		expect(mockLoan.checkOverDue(EasyMock.anyObject(Date.class))).andReturn(true);
+		
+		//Replay mocks
+		replay(mockLoanHelper);
+		replay(mockLoan);
+		
+		//Perform actions
+		loanDAO.createNewPendingList(mockMember);
+		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
+		loanDAO.commitPendingLoans(mockMember);
+		loanDAO.updateOverDueStatus(dueDate);
+		
+		verify(mockLoanHelper);
+		verify(mockLoan);
 	}
 
 	@Test
