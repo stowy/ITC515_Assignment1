@@ -3,6 +3,7 @@ package library.tests.daos;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -109,7 +110,35 @@ public class TestLoanDAO {
 	
 	@Test
 	public void testCommitPendingLoans() {
-		fail("Not yet implemented");
+		//Set up expectations
+		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
+		mockMember.addLoan(mockLoan);
+		expectLastCall().once();
+		mockBook.borrow(mockLoan);
+		expectLastCall().once();
+		mockLoan.commit();
+		expectLastCall().once();
+		
+		//Replay mocks
+		replay(mockLoanHelper);
+		replay(mockMember);
+		replay(mockBook);
+		replay(mockLoan);
+		
+		//Perform actions
+		loanDAO.createNewPendingList(mockMember);
+		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
+		loanDAO.commitPendingLoans(mockMember);
+		
+		//Verify mocks
+		verify(mockLoanHelper);
+		verify(mockMember);
+		verify(mockBook);
+		verify(mockBook);
+		
+		//Check loans state
+		List<ILoan> committedLoans = loanDAO.listLoans();
+		assertTrue(committedLoans.contains(mockLoan));
 	}
 	
 	@Test
