@@ -147,7 +147,26 @@ public class TestLoanDAO {
 	
 	@Test
 	public void testClearPendingLoans() {
-		fail("Not yet implemented");
+		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
+		
+		//Replay mocks
+		replay(mockLoanHelper);
+				
+		//Perform actions
+		loanDAO.createNewPendingList(mockMember);
+		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
+		
+		//Verify mocks
+		verify(mockLoanHelper);
+		
+		List<ILoan> actual = loanDAO.getPendingList(mockMember);
+		assertEquals(1, actual.size());
+		assertTrue(actual.contains(mockLoan));
+		
+		loanDAO.clearPendingLoans(mockMember);
+		actual = loanDAO.getPendingList(mockMember);
+		assertEquals(0, actual.size());
+		assertFalse(actual.contains(mockLoan));
 	}	
 	
 	@Test
