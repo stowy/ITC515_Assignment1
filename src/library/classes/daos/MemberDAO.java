@@ -59,8 +59,13 @@ public class MemberDAO implements IMemberDAO {
 
 	@Override
 	public List<IMember> findMembersByEmailAddress(String emailAddress) {
-		// TODO Auto-generated method stub
-		return null;
+		List<IMember> results = new ArrayList<IMember>();
+		for (IMember member : members) {
+			if (member.getEmailAddress().equals(emailAddress)) {
+				results.add(member);
+			}
+		}
+		return results;
 	}
 
 	@Override
