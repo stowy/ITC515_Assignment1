@@ -41,7 +41,7 @@ public class TestLoanDAO {
 		calendar.add(Calendar.DAY_OF_YEAR, ILoan.LOAN_PERIOD);
 		dueDate = calendar.getTime();
 		
-		mockLoan = createMock(ILoan.class);
+		mockLoan = createNiceMock(ILoan.class);
 		mockBook = createMock(IBook.class);
 		mockMember = createMock(IMember.class);
 	}
@@ -181,7 +181,32 @@ public class TestLoanDAO {
 	
 	@Test
 	public void testListLoans() {
-		fail("Not yet implemented");
+		List<ILoan> actual = loanDAO.listLoans();
+		assertNotNull(actual);
+		assertEquals(0, actual.size());
+		
+		//Set up expectations
+		int id = 1;
+		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
+		expect(mockLoan.getBorrower()).andReturn(mockMember);
+		expect(mockLoan.getBook()).andReturn(mockBook);
+		expect(mockLoan.getID()).andReturn(id);
+		
+		//Replay mocks
+		replay(mockLoanHelper);
+		replay(mockLoan);
+		
+		//Perform actions
+		loanDAO.createNewPendingList(mockMember);
+		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
+		loanDAO.commitPendingLoans(mockMember);
+		
+		verify(mockLoanHelper);
+		verify(mockLoan);
+		
+		actual = loanDAO.listLoans();
+		assertTrue(actual.contains(mockLoan));
+		assertEquals(1, actual.size());
 	}
 	
 	@Test
