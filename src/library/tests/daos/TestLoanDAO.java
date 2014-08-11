@@ -14,6 +14,7 @@ import library.interfaces.entities.IBook;
 import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
 
+import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +24,7 @@ public class TestLoanDAO {
 	private ILoanHelper mockLoanHelper;
 	private ILoanDAO loanDAO;
 	
+	ILoan mockLoan;
 	IBook mockBook;
 	IMember mockMember;
 	Date borrowDate;
@@ -38,6 +40,7 @@ public class TestLoanDAO {
 		calendar.add(Calendar.DAY_OF_YEAR, ILoan.LOAN_PERIOD);
 		dueDate = calendar.getTime();
 		
+		mockLoan = createMock(ILoan.class);
 		mockBook = createMock(IBook.class);
 		mockMember = createMock(IMember.class);
 	}
@@ -76,7 +79,19 @@ public class TestLoanDAO {
 
 	@Test
 	public void testCreatePendingLoan() {
-		fail("Not yet implemented");
+		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
+		replay(mockLoanHelper);
+		loanDAO.createNewPendingList(mockMember);
+		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
+		verify(mockLoanHelper);
+		List<ILoan> actual = loanDAO.getPendingList(mockMember);
+		assertNotNull(actual);
+		assertTrue(actual.contains(mockLoan));
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testCreatePendingLoanException() {
+		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
 	}
 	
 	@Test
