@@ -6,10 +6,9 @@ import static org.junit.Assert.*;
 import java.util.Date;
 import java.util.List;
 
-import library.classes.daos.BookDAO;
-import library.interfaces.daos.IBookDAO;
-import library.interfaces.daos.IBookHelper;
-import library.interfaces.entities.IBook;
+import library.classes.daos.LoanDAO;
+import library.interfaces.daos.ILoanDAO;
+import library.interfaces.daos.ILoanHelper;
 import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
 
@@ -29,12 +28,15 @@ public class TestLoanDAO {
 
 	@Test
 	public void testValidConstructor() {
-		fail("Not yet implemented");
+		ILoanHelper helper = createMock(ILoanHelper.class);
+		ILoanDAO testLoanDAO = new LoanDAO(helper);
+		assertNotNull(testLoanDAO);
+		assertTrue(testLoanDAO instanceof ILoanDAO);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidConstructor() {
-		fail("Not yet implemented");
+		new LoanDAO(null);
 	}
 	
 	@Test
