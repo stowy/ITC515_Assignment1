@@ -81,8 +81,7 @@ public class LoanDAO implements ILoanDAO {
 
 	@Override
 	public ILoan getLoanByID(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return currentLoans.get(id);
 	}
 
 	@Override
