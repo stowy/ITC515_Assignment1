@@ -110,8 +110,9 @@ public class LoanDAO implements ILoanDAO {
 
 	@Override
 	public void updateOverDueStatus(Date currentDate) {
-		// TODO Auto-generated method stub
-
+		for (ILoan loan : currentLoans.values()) {
+			loan.checkOverDue(currentDate);
+		}
 	}
 
 	@Override
