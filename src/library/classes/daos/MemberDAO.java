@@ -70,8 +70,13 @@ public class MemberDAO implements IMemberDAO {
 
 	@Override
 	public List<IMember> findMembersByNames(String firstName, String lastName) {
-		// TODO Auto-generated method stub
-		return null;
+		List<IMember> results = new ArrayList<IMember>();
+		for (IMember member : members) {
+			if (member.getLastName().equals(lastName) && member.getFirstName().equals(firstName)) {
+				results.add(member);
+			}
+		}
+		return results;
 	}
 
 }
