@@ -32,14 +32,18 @@ public class MemberDAO implements IMemberDAO {
 
 	@Override
 	public IMember getMemberByID(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		IMember foundMember = null;
+		for (IMember member : members) {
+			if (member.getID() == id) {
+				foundMember = member;
+			}
+		}
+		return foundMember;
 	}
 
 	@Override
 	public List<IMember> listMembers() {
-		// TODO Auto-generated method stub
-		return null;
+		return members;
 	}
 
 	@Override
