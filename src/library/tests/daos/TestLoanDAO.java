@@ -111,13 +111,17 @@ public class TestLoanDAO {
 	@Test
 	public void testCommitPendingLoans() {
 		//Set up expectations
+		int id = 1;
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
+		expect(mockLoan.getBorrower()).andReturn(mockMember);
+		expect(mockLoan.getBook()).andReturn(mockBook);
 		mockMember.addLoan(mockLoan);
 		expectLastCall().once();
 		mockBook.borrow(mockLoan);
 		expectLastCall().once();
 		mockLoan.commit();
 		expectLastCall().once();
+		expect(mockLoan.getID()).andReturn(id);
 		
 		//Replay mocks
 		replay(mockLoanHelper);
