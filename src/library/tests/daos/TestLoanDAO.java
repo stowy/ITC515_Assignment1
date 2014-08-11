@@ -249,7 +249,32 @@ public class TestLoanDAO {
 
 	@Test
 	public void testFindOverDueLoans() {
-		fail("Not yet implemented");
+		//Set up expectations
+		int id = 1;
+		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
+		expect(mockLoan.getBorrower()).andReturn(mockMember);
+		expect(mockLoan.getBook()).andReturn(mockBook);
+		mockLoan.commit();
+		expectLastCall().once();
+		expect(mockLoan.getID()).andReturn(id);
+		expect(mockLoan.isOverDue()).andReturn(true);
+		
+		//Replay mocks
+		replay(mockLoanHelper);
+		replay(mockLoan);
+		
+		//Perform actions
+		loanDAO.createNewPendingList(mockMember);
+		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
+		loanDAO.commitPendingLoans(mockMember);
+		List<ILoan> actual = loanDAO.findOverDueLoans();
+		
+		verify(mockLoanHelper);
+		verify(mockLoan);
+		
+		assertNotNull(actual);
+		assertEquals(1, actual.size());
+		assertTrue(actual.contains(mockLoan));
 	}
 
 }
