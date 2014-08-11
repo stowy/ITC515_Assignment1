@@ -74,9 +74,9 @@ public class LoanDAO implements ILoanDAO {
 	}
 
 	@Override
-	public void clearPendingLoans(IMember borrower) {
-		// TODO Auto-generated method stub
-
+	public void clearPendingLoans(IMember borrower) throws IllegalArgumentException, RuntimeException {
+		List<ILoan> pendingLoans = getPendingList(borrower);
+		pendingLoans.clear();
 	}
 
 	@Override
