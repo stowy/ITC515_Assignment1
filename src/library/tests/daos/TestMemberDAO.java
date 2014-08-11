@@ -84,17 +84,51 @@ public class TestMemberDAO {
 	
 	@Test
 	public void testFindMembersByLastName() {
-		fail("Not yet implemented");
+		IMember mockMember = createMock(IMember.class);
+ 		expect(mockHelper.makeMember(EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyInt())).andReturn(mockMember);
+ 		expect(mockMember.getLastName()).andReturn(lastName);
+ 		replay(mockHelper);
+ 		replay(mockMember);
+ 		memberDao.addMember(firstName, lastName, contactPhone, email);
+ 		List<IMember> actual = memberDao.findMembersByLastName(lastName);
+ 		verify(mockHelper);
+ 		verify(mockMember);
+ 		assertNotNull(actual);
+ 		assertTrue(actual instanceof List);
+ 		assertTrue(actual.contains(mockMember));
 	}
 
 	@Test
 	public void testFindMembersByEmailAddress() {
-		fail("Not yet implemented");
+		IMember mockMember = createMock(IMember.class);
+ 		expect(mockHelper.makeMember(EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyInt())).andReturn(mockMember);
+ 		expect(mockMember.getEmailAddress()).andReturn(email);
+ 		replay(mockHelper);
+ 		replay(mockMember);
+ 		memberDao.addMember(firstName, lastName, contactPhone, email);
+ 		List<IMember> actual = memberDao.findMembersByEmailAddress(email);
+ 		verify(mockHelper);
+ 		verify(mockMember);
+ 		assertNotNull(actual);
+ 		assertTrue(actual instanceof List);
+ 		assertTrue(actual.contains(mockMember));
 	}
 	
 	@Test
 	public void testFindMembersByNames() {
-		fail("Not yet implemented");
+		IMember mockMember = createMock(IMember.class);
+ 		expect(mockHelper.makeMember(EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyInt())).andReturn(mockMember);
+ 		expect(mockMember.getFirstName()).andReturn(firstName);
+ 		expect(mockMember.getLastName()).andReturn(lastName);
+ 		replay(mockHelper);
+ 		replay(mockMember);
+ 		memberDao.addMember(firstName, lastName, contactPhone, email);
+ 		List<IMember> actual = memberDao.findMembersByNames(firstName, lastName);
+ 		verify(mockHelper);
+ 		verify(mockMember);
+ 		assertNotNull(actual);
+ 		assertTrue(actual instanceof List);
+ 		assertTrue(actual.contains(mockMember));
 	}
 
 }
