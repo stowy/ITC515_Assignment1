@@ -2,8 +2,12 @@ package library.classes.daos;
 
 
 import static library.classes.utils.VerificationUtil.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import library.interfaces.daos.ILoanDAO;
 import library.interfaces.daos.ILoanHelper;
@@ -14,16 +18,18 @@ import library.interfaces.entities.IMember;
 public class LoanDAO implements ILoanDAO {
 
 	ILoanHelper loanHelper;
+	Map<IMember, List<ILoan>> pendingLoansByMember;
 	
 	public LoanDAO(ILoanHelper loanHelper) throws IllegalArgumentException {
 		assertNotNull(loanHelper);
 		this.loanHelper = loanHelper;
+		this.pendingLoansByMember = new HashMap<IMember, List<ILoan>>();
 	}
 	
 	@Override
 	public void createNewPendingList(IMember borrower) {
-		// TODO Auto-generated method stub
-
+		List<ILoan> pendingLoans = new ArrayList<ILoan>();
+		pendingLoansByMember.put(borrower, pendingLoans);
 	}
 
 	@Override
@@ -34,9 +40,12 @@ public class LoanDAO implements ILoanDAO {
 	}
 
 	@Override
-	public List<ILoan> getPendingList(IMember borrower) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ILoan> getPendingList(IMember borrower) throws RuntimeException {
+		List<ILoan> pendingList = pendingLoansByMember.get(borrower);
+		if (pendingList == null) {
+			throw new RuntimeException("No pending loan list for borrower");
+		}
+		return pendingList;
 	}
 
 	@Override
