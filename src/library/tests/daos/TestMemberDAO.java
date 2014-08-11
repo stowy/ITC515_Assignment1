@@ -10,18 +10,31 @@ import library.interfaces.daos.IMemberDAO;
 import library.interfaces.daos.IMemberHelper;
 import library.interfaces.entities.IMember;
 
+import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TestMemberDAO {
 
+	private String firstName = "firstName";
+	private String lastName = "lastName";
+	private String contactPhone = "contactPhone";
+	private String email = "email";
+	
+	private IMemberHelper mockHelper;
+	private IMemberDAO memberDao;
+	
 	@Before
 	public void setUp() throws Exception {
+		mockHelper = createMock(IMemberHelper.class);
+		memberDao = new MemberDAO(mockHelper);
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		mockHelper = null;
+		memberDao = null;
 	}
 
 	@Test
@@ -39,7 +52,12 @@ public class TestMemberDAO {
 	
 	@Test
 	public void testAddMember() {
-		fail("Not yet implemented");
+		IMember mockMember = createMock(IMember.class);
+ 		expect(mockHelper.makeMember(EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyInt())).andReturn(mockMember);
+ 		replay(mockHelper);
+		IMember member = memberDao.addMember(firstName, lastName, contactPhone, email);
+		verify(mockHelper);
+		assertEquals(mockMember, member);
 	}
 	
 	@Test
