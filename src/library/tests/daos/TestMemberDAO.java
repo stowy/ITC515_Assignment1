@@ -62,12 +62,24 @@ public class TestMemberDAO {
 	
 	@Test
 	public void testGetMemberByID() {
-		fail("Not yet implemented");
+		int id = 1;
+		IMember mockMember = createMock(IMember.class);
+ 		expect(mockHelper.makeMember(EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyString(), EasyMock.anyInt())).andReturn(mockMember);
+ 		expect(mockMember.getID()).andReturn(id);
+ 		replay(mockHelper);
+ 		replay(mockMember);
+ 		memberDao.addMember(firstName, lastName, contactPhone, email);
+ 		IMember actual = memberDao.getMemberByID(id);
+ 		verify(mockHelper);
+ 		verify(mockMember);
+ 		assertEquals(mockMember, actual);
 	}
 	
 	@Test
 	public void testListMembers() {
-		fail("Not yet implemented");
+		List<IMember> members = memberDao.listMembers();
+		assertNotNull(members);
+		assertTrue(members.size() == 0);
 	}
 	
 	@Test
