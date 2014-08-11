@@ -117,8 +117,13 @@ public class LoanDAO implements ILoanDAO {
 
 	@Override
 	public List<ILoan> findOverDueLoans() {
-		// TODO Auto-generated method stub
-		return null;
+		List<ILoan> overdueLoans = new ArrayList<ILoan>();
+		for (ILoan loan : currentLoans.values()) {
+			if (loan.isOverDue()) {
+				overdueLoans.add(loan);
+			}
+		}
+		return overdueLoans;
 	}
 
 }
