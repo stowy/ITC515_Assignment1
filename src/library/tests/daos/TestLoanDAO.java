@@ -291,25 +291,30 @@ public class TestLoanDAO {
 		String title = "title";
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
 		expect(mockLoan.getBorrower()).andReturn(mockMember);
-		expect(mockLoan.getBook()).andReturn(mockBook);
+		expect(mockLoan.getBook()).andReturn(mockBook).atLeastOnce();
 		mockLoan.commit();
 		expectLastCall().once();
 		expect(mockLoan.getID()).andReturn(id);
+		mockBook.borrow(mockLoan);
+		expectLastCall().once();
 		expect(mockBook.getTitle()).andReturn(title);
 		
 		//Replay mocks
 		replay(mockLoanHelper);
 		replay(mockLoan);
+		replay(mockBook);
 		
 		//Perform actions
 		loanDAO.createNewPendingList(mockMember);
 		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
 		loanDAO.commitPendingLoans(mockMember);
+			
+		List<ILoan> actual = loanDAO.findLoansByBookTitle(title);
 		
 		verify(mockLoanHelper);
 		verify(mockLoan);
+		verify(mockBook);
 		
-		List<ILoan> actual = loanDAO.findLoansByBookTitle(title);
 		assertNotNull(actual);
 		assertEquals(1, actual.size());
 		assertTrue(actual.contains(mockLoan));

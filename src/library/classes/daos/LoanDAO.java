@@ -104,8 +104,14 @@ public class LoanDAO implements ILoanDAO {
 
 	@Override
 	public List<ILoan> findLoansByBookTitle(String title) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ILoan> foundLoans = new ArrayList<ILoan>();
+		for (ILoan loan : currentLoans.values()) {
+			IBook book = loan.getBook();
+			if (book.getTitle().equals(title)) {
+				foundLoans.add(loan);
+			}
+		}
+		return foundLoans;
 	}
 
 	@Override
