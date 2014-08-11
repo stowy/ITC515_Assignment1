@@ -19,11 +19,13 @@ public class LoanDAO implements ILoanDAO {
 
 	ILoanHelper loanHelper;
 	Map<IMember, List<ILoan>> pendingLoansByMember;
+	int nextId;
 	
 	public LoanDAO(ILoanHelper loanHelper) throws IllegalArgumentException {
 		assertNotNull(loanHelper);
 		this.loanHelper = loanHelper;
 		this.pendingLoansByMember = new HashMap<IMember, List<ILoan>>();
+		nextId = 1;
 	}
 	
 	@Override
@@ -34,9 +36,12 @@ public class LoanDAO implements ILoanDAO {
 
 	@Override
 	public ILoan createPendingLoan(IMember borrower, IBook book,
-			Date borrowDate, Date dueDate) {
-		// TODO Auto-generated method stub
-		return null;
+			Date borrowDate, Date dueDate) throws IllegalArgumentException, RuntimeException {
+		List<ILoan> pendingLoans = getPendingList(borrower);
+		ILoan loan = loanHelper.makeLoan(book, borrower, borrowDate, dueDate, nextId);
+		pendingLoans.add(loan);
+		nextId++;
+		return loan;
 	}
 
 	@Override
