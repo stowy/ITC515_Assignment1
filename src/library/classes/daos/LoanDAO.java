@@ -1,5 +1,7 @@
 package library.classes.daos;
 
+
+import static library.classes.utils.VerificationUtil.*;
 import java.util.Date;
 import java.util.List;
 
@@ -11,8 +13,11 @@ import library.interfaces.entities.IMember;
 
 public class LoanDAO implements ILoanDAO {
 
+	ILoanHelper loanHelper;
+	
 	public LoanDAO(ILoanHelper loanHelper) throws IllegalArgumentException {
-		// TODO Auto-generated constructor stub
+		assertNotNull(loanHelper);
+		this.loanHelper = loanHelper;
 	}
 	
 	@Override
