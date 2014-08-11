@@ -260,7 +260,7 @@ public class TestLoanDAO {
 		//Set up expectations
 		int id = 1;
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
-		expect(mockLoan.getBorrower()).andReturn(mockMember);
+		expect(mockLoan.getBorrower()).andReturn(mockMember).atLeastOnce();
 		expect(mockLoan.getBook()).andReturn(mockBook);
 		mockLoan.commit();
 		expectLastCall().once();

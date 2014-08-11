@@ -98,8 +98,13 @@ public class LoanDAO implements ILoanDAO {
 
 	@Override
 	public List<ILoan> findLoansByBorrower(IMember borrower) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ILoan> foundLoans = new ArrayList<ILoan>();
+		for (ILoan loan : currentLoans.values()) {
+			if (loan.getBorrower().equals(borrower)) {
+				foundLoans.add(loan);
+			}
+		}
+		return foundLoans;
 	}
 
 	@Override
