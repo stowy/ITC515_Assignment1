@@ -2,12 +2,17 @@ package library.tests.controls;
 
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
+
+import java.util.Date;
+
 import library.classes.controls.BorrowCTL;
+import library.classes.exceptions.BorrowerNotFoundException;
 import library.interfaces.controls.IBorrowCTL;
 import library.interfaces.controls.IBorrowCTL.State;
 import library.interfaces.daos.IBookDAO;
 import library.interfaces.daos.ILoanDAO;
 import library.interfaces.daos.IMemberDAO;
+import library.interfaces.entities.IMember;
 import library.interfaces.uis.IBorrowUI;
 
 import org.easymock.EasyMock;
@@ -70,7 +75,8 @@ public class TestBorrowCTL {
 	
 //	Sig : cancel
 //	CTL.state = ANY
-//	UI.state = ANY Post: CTL.state = ENDED
+//	UI.state = ANY 
+//	Post: CTL.state = ENDED
 //	UI.state = ENDED TempLoanList cleared/deleted
 	@Test
 	public void testCancel() {
@@ -89,8 +95,65 @@ public class TestBorrowCTL {
 //			CTL.state = BORROWING
 //			UI.state = BORROWING tempLoanList created. UI.scanBook called
 	@Test
-	public void testCardScanned() {
-		fail("Not yet implemented");
+	public void testCardScannedMemberDisallowed() {
+		IMember mockMember = createMock(IMember.class);
+		expect(mockMemberDao.getMemberByID(EasyMock.anyInt())).andReturn(mockMember);
+		mockLoanDao.updateOverDueStatus(EasyMock.anyObject(Date.class));
+		expectLastCall().once();
+		expect(mockMember.hasOverDueLoans()).andReturn(true);
+		expect(mockMember.hasReachedFineLimit()).andReturn(false);
+		expect(mockMember.hasReachedLoanLimit()).andReturn(false);
+		mockBorrowUI.setState(State.DISALLOWED);
+		expectLastCall().once();
+		
+		replay(mockMemberDao);
+		replay(mockMember);
+		replay(mockLoanDao);
+		replay(mockBorrowUI);
+		
+		try {
+			borrowCTL.cardScanned(1);
+		} catch (BorrowerNotFoundException e) {
+			fail();
+		}
+		
+		verify(mockMemberDao);
+		verify(mockLoanDao);
+		verify(mockMember);
+		verify(mockBorrowUI);
+	}
+	
+	@Test
+	public void testCardScannedMemberBorrowing() {
+		IMember mockMember = createMock(IMember.class);
+		expect(mockMemberDao.getMemberByID(EasyMock.anyInt())).andReturn(mockMember);
+		mockLoanDao.updateOverDueStatus(EasyMock.anyObject(Date.class));
+		expectLastCall().once();
+		expect(mockMember.hasOverDueLoans()).andReturn(false);
+		expect(mockMember.hasReachedFineLimit()).andReturn(false);
+		expect(mockMember.hasReachedLoanLimit()).andReturn(false);
+		mockBorrowUI.setState(State.BORROWING);
+		expectLastCall().once();
+		mockBorrowUI.scanBook();
+		expectLastCall().once();
+		mockLoanDao.createNewPendingList(mockMember);
+		expectLastCall().once();
+		
+		replay(mockMemberDao);
+		replay(mockMember);
+		replay(mockLoanDao);
+		replay(mockBorrowUI);
+		
+		try {
+			borrowCTL.cardScanned(1);
+		} catch (BorrowerNotFoundException e) {
+			fail();
+		}
+		
+		verify(mockMemberDao);
+		verify(mockLoanDao);
+		verify(mockMember);
+		verify(mockBorrowUI);		
 	}
 
 //	Sig : bookScanned(bookID)

@@ -2,6 +2,10 @@ package library.classes.controls;
 
 import static library.classes.utils.VerificationUtil.*;
 
+import java.util.Date;
+
+import org.easymock.EasyMock;
+
 import library.classes.exceptions.BookNotFoundException;
 import library.classes.exceptions.BorrowerNotFoundException;
 import library.interfaces.controls.IBorrowCTL;
@@ -65,6 +69,7 @@ public class BorrowCTL implements IBorrowCTL {
 	@Override
 	public IMember cardScanned(int memberID) throws BorrowerNotFoundException {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
