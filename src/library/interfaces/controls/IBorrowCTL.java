@@ -1,5 +1,7 @@
 package library.interfaces.controls;
 
+import library.classes.exceptions.BookNotFoundException;
+import library.classes.exceptions.BorrowerNotFoundException;
 import library.interfaces.entities.IMember;
 
 public interface IBorrowCTL {
@@ -8,9 +10,9 @@ public interface IBorrowCTL {
 	
 	public void cancel();
 	
-	public IMember cardScanned(int memberID);
+	public IMember cardScanned(int memberID) throws BorrowerNotFoundException;
 	
-	public void bookScanned(int bookID);
+	public void bookScanned(int bookID) throws BookNotFoundException;
 	
 	public void scanNext();
 	

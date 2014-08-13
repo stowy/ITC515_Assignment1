@@ -1,5 +1,7 @@
 package library.classes.controls;
 
+import library.classes.exceptions.BookNotFoundException;
+import library.classes.exceptions.BorrowerNotFoundException;
 import library.interfaces.controls.IBorrowCTL;
 import library.interfaces.daos.IBookDAO;
 import library.interfaces.daos.ILoanDAO;
@@ -15,7 +17,7 @@ public class BorrowCTL implements IBorrowCTL {
 //	Post: CTL exists UI initialized
 //	CTL.state = STARTED UI.state = STARTED 
 //	Refs to DAOS stored.
-	public BorrowCTL(IMemberDAO memberDao, IBookDAO bookDao, ILoanDAO loanDao, IBorrowUI borrowUI) {
+	public BorrowCTL(IMemberDAO memberDao, IBookDAO bookDao, ILoanDAO loanDao, IBorrowUI borrowUI) throws IllegalArgumentException {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -41,7 +43,7 @@ public class BorrowCTL implements IBorrowCTL {
 //			CTL.state = BORROWING
 //			UI.state = BORROWING tempLoanList created. UI.scanBook called
 	@Override
-	public IMember cardScanned(int memberID) {
+	public IMember cardScanned(int memberID) throws BorrowerNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -56,7 +58,7 @@ public class BorrowCTL implements IBorrowCTL {
 //	CTL.state = COMPLETED
 //	UI.state = COMPLETED
 	@Override
-	public void bookScanned(int bookID) {
+	public void bookScanned(int bookID) throws BookNotFoundException {
 		// TODO Auto-generated method stub
 
 	}

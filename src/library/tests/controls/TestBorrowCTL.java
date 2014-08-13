@@ -1,6 +1,8 @@
 package library.tests.controls;
 
 import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
+
 import library.interfaces.daos.IBookDAO;
 import library.interfaces.daos.ILoanDAO;
 import library.interfaces.daos.IMemberDAO;
@@ -11,13 +13,26 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TestBorrowCTL {
+	
+	private IMemberDAO mockMemberDao;
+	private IBookDAO mockBookDao;
+	private ILoanDAO mockLoanDao;
+	private IBorrowUI mockBorrowUI;
 
 	@Before
 	public void setUp() throws Exception {
+		mockMemberDao = createMock(IMemberDAO.class);
+		mockBookDao = createMock(IBookDAO.class);
+		mockLoanDao = createMock(ILoanDAO.class);
+		mockBorrowUI = createMock(IBorrowUI.class);
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		mockMemberDao = null;
+		mockBookDao = null;
+		mockLoanDao = null;
+		mockBorrowUI = null;
 	}
 	
 //	Pre: CTL does not exist
