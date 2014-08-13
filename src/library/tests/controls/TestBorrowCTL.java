@@ -31,11 +31,10 @@ public class TestBorrowCTL {
 
 	@Before
 	public void setUp() throws Exception {
-		mockMemberDao = createMock(IMemberDAO.class);
-		mockBookDao = createMock(IBookDAO.class);
-		mockLoanDao = createMock(ILoanDAO.class);
-		mockBorrowUI = createMock(IBorrowUI.class);
-		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
+		mockMemberDao = createNiceMock(IMemberDAO.class);
+		mockBookDao = createNiceMock(IBookDAO.class);
+		mockLoanDao = createNiceMock(ILoanDAO.class);
+		mockBorrowUI = createNiceMock(IBorrowUI.class);
 	}
 
 	@After
@@ -96,13 +95,11 @@ public class TestBorrowCTL {
 //			UI.state = BORROWING tempLoanList created. UI.scanBook called
 	@Test
 	public void testCardScannedMemberDisallowed() {
-		IMember mockMember = createMock(IMember.class);
+		IMember mockMember = createNiceMock(IMember.class);
 		expect(mockMemberDao.getMemberByID(EasyMock.anyInt())).andReturn(mockMember);
 		mockLoanDao.updateOverDueStatus(EasyMock.anyObject(Date.class));
 		expectLastCall().once();
 		expect(mockMember.hasOverDueLoans()).andReturn(true);
-		expect(mockMember.hasReachedFineLimit()).andReturn(false);
-		expect(mockMember.hasReachedLoanLimit()).andReturn(false);
 		mockBorrowUI.setState(State.DISALLOWED);
 		expectLastCall().once();
 		
@@ -111,6 +108,7 @@ public class TestBorrowCTL {
 		replay(mockLoanDao);
 		replay(mockBorrowUI);
 		
+		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
 		try {
 			borrowCTL.cardScanned(1);
 		} catch (BorrowerNotFoundException e) {
@@ -144,6 +142,7 @@ public class TestBorrowCTL {
 		replay(mockLoanDao);
 		replay(mockBorrowUI);
 		
+		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
 		try {
 			borrowCTL.cardScanned(1);
 		} catch (BorrowerNotFoundException e) {

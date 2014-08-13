@@ -2,6 +2,7 @@ package library.classes.controls;
 
 import static library.classes.utils.VerificationUtil.*;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.easymock.EasyMock;
@@ -21,6 +22,7 @@ public class BorrowCTL implements IBorrowCTL {
 	private ILoanDAO loanDao;
 	private IBorrowUI borrowUI;
 	private State state;
+	private IMember member;
 	
 	
 //	Pre: CTL does not exist
@@ -68,9 +70,24 @@ public class BorrowCTL implements IBorrowCTL {
 //			UI.state = BORROWING tempLoanList created. UI.scanBook called
 	@Override
 	public IMember cardScanned(int memberID) throws BorrowerNotFoundException {
-		// TODO Auto-generated method stub
+		member = memberDao.getMemberByID(memberID);
+		if (member == null) {
+			throw new BorrowerNotFoundException();
+		}
+		loanDao.updateOverDueStatus(Calendar.getInstance().getTime());
+		borrowUI.displayBorrowerDetails(member);
+		if (member.hasOverDueLoans() || member.hasReachedFineLimit() || member.hasReachedLoanLimit()) {
+			this.state = State.DISALLOWED;
+			borrowUI.setState(State.DISALLOWED);
+			//TODO: End UI session
+		} else {
+			this.state = State.BORROWING;
+			borrowUI.setState(State.BORROWING);
+			loanDao.createNewPendingList(member);
+			borrowUI.scanBook();
+		}
 		
-		return null;
+		return member;
 	}
 
 //	Sig : bookScanned(bookID)
