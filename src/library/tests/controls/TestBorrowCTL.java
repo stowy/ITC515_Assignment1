@@ -2,15 +2,18 @@ package library.tests.controls;
 
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
-
+import library.classes.controls.BorrowCTL;
+import library.interfaces.controls.IBorrowCTL;
 import library.interfaces.daos.IBookDAO;
 import library.interfaces.daos.ILoanDAO;
 import library.interfaces.daos.IMemberDAO;
 import library.interfaces.uis.IBorrowUI;
 
+import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 
 public class TestBorrowCTL {
 	
@@ -18,6 +21,7 @@ public class TestBorrowCTL {
 	private IBookDAO mockBookDao;
 	private ILoanDAO mockLoanDao;
 	private IBorrowUI mockBorrowUI;
+	private IBorrowCTL borrowCTL;
 
 	@Before
 	public void setUp() throws Exception {
@@ -25,6 +29,7 @@ public class TestBorrowCTL {
 		mockBookDao = createMock(IBookDAO.class);
 		mockLoanDao = createMock(ILoanDAO.class);
 		mockBorrowUI = createMock(IBorrowUI.class);
+		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
 	}
 
 	@After
@@ -42,8 +47,22 @@ public class TestBorrowCTL {
 //	CTL.state = STARTED UI.state = STARTED 
 //	Refs to DAOS stored.
 	@Test
-	public void testConstructor() {
-		fail("Not yet implemented");
+	public void testValidConstructor() {
+		IBorrowCTL testBorrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
+		assertNotNull(testBorrowCTL);
+		assertTrue(testBorrowCTL instanceof IBorrowCTL);
+		mockBorrowUI.initialise(EasyMock.anyObject(IBorrowCTL.class));
+		expectLastCall().once();
+		mockBorrowUI.setState(library.interfaces.controls.IBorrowCTL.State.STARTED);
+		expectLastCall().once();
+		
+		replay(mockBorrowUI);
+	 	verify(mockBorrowUI);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidConstructor() {
+		new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, null);
 	}
 	
 //	Sig : cancel
