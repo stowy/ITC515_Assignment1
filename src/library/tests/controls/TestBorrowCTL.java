@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
 import library.classes.controls.BorrowCTL;
 import library.interfaces.controls.IBorrowCTL;
+import library.interfaces.controls.IBorrowCTL.State;
 import library.interfaces.daos.IBookDAO;
 import library.interfaces.daos.ILoanDAO;
 import library.interfaces.daos.IMemberDAO;
@@ -48,16 +49,18 @@ public class TestBorrowCTL {
 //	Refs to DAOS stored.
 	@Test
 	public void testValidConstructor() {
-		IBorrowCTL testBorrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
+		IBorrowUI testMockBorrowUI = createMock(IBorrowUI.class);
+		testMockBorrowUI.initialise(EasyMock.anyObject(IBorrowCTL.class));
+		expectLastCall().once();
+		testMockBorrowUI.setState(State.STARTED);
+		expectLastCall().once();
+		replay(testMockBorrowUI);
+		IBorrowCTL testBorrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, testMockBorrowUI);
+	
 		assertNotNull(testBorrowCTL);
 		assertTrue(testBorrowCTL instanceof IBorrowCTL);
-		mockBorrowUI.initialise(EasyMock.anyObject(IBorrowCTL.class));
-		expectLastCall().once();
-		mockBorrowUI.setState(library.interfaces.controls.IBorrowCTL.State.STARTED);
-		expectLastCall().once();
 		
-		replay(mockBorrowUI);
-	 	verify(mockBorrowUI);
+	 	verify(testMockBorrowUI);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)

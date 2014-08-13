@@ -1,5 +1,7 @@
 package library.classes.controls;
 
+import static library.classes.utils.VerificationUtil.*;
+
 import library.classes.exceptions.BookNotFoundException;
 import library.classes.exceptions.BorrowerNotFoundException;
 import library.interfaces.controls.IBorrowCTL;
@@ -10,7 +12,13 @@ import library.interfaces.entities.IMember;
 import library.interfaces.uis.IBorrowUI;
 
 public class BorrowCTL implements IBorrowCTL {
-
+	private IMemberDAO memberDao;
+	private IBookDAO bookDao;
+	private ILoanDAO loanDao;
+	private IBorrowUI borrowUI;
+	private State state;
+	
+	
 //	Pre: CTL does not exist
 //	UI needs to be initialized
 //	memberDAO exists loanDAO exists bookDAO exists
@@ -18,7 +26,19 @@ public class BorrowCTL implements IBorrowCTL {
 //	CTL.state = STARTED UI.state = STARTED 
 //	Refs to DAOS stored.
 	public BorrowCTL(IMemberDAO memberDao, IBookDAO bookDao, ILoanDAO loanDao, IBorrowUI borrowUI) throws IllegalArgumentException {
-		// TODO Auto-generated constructor stub
+		assertNotNull(memberDao);
+		assertNotNull(bookDao);
+		assertNotNull(loanDao);
+		assertNotNull(borrowUI);
+		
+		this.memberDao = memberDao;
+		this.bookDao = bookDao;
+		this.loanDao = loanDao;
+		this.borrowUI = borrowUI;
+		this.state = State.STARTED;
+		
+		borrowUI.initialise(this);
+		borrowUI.setState(State.STARTED);
 	}
 	
 //	Sig : cancel
