@@ -4,15 +4,20 @@ import static library.classes.utils.VerificationUtil.*;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.easymock.EasyMock;
 
+import library.classes.daos.LoanDAO;
+import library.classes.entities.Loan;
 import library.classes.exceptions.BookNotFoundException;
 import library.classes.exceptions.BorrowerNotFoundException;
 import library.interfaces.controls.IBorrowCTL;
 import library.interfaces.daos.IBookDAO;
 import library.interfaces.daos.ILoanDAO;
 import library.interfaces.daos.IMemberDAO;
+import library.interfaces.entities.IBook;
+import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
 import library.interfaces.uis.IBorrowUI;
 
@@ -101,8 +106,26 @@ public class BorrowCTL implements IBorrowCTL {
 //	UI.state = COMPLETED
 	@Override
 	public void bookScanned(int bookID) throws BookNotFoundException {
-		// TODO Auto-generated method stub
-
+		IBook book = bookDao.getBookByID(bookID);
+		if (book == null) {
+			throw new BookNotFoundException();
+		}
+		if (this.state != State.BORROWING) {
+			return;
+		}
+		Date now = Calendar.getInstance().getTime();
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, Loan.LOAN_PERIOD);
+		Date dueDate = calendar.getTime();
+		loanDao.createPendingLoan(member, book, now, dueDate);
+		List<ILoan> loanList = loanDao.getPendingList(member);
+		borrowUI.displayBook(book);
+		borrowUI.displayPendingList(loanList);
+		if (member.hasReachedLoanLimit()) {
+			this.state = State.COMPLETED;
+			borrowUI.setState(State.COMPLETED);
+		}
+		
 	}
 
 //	Sig: scanNext

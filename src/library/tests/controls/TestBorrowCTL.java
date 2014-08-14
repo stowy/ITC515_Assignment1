@@ -182,13 +182,15 @@ public class TestBorrowCTL {
 		expect(mockMember.hasOverDueLoans()).andReturn(false);
 		expect(mockMember.hasReachedFineLimit()).andReturn(false);
 		expect(mockMember.hasReachedLoanLimit()).andReturn(false).once();
+		expect(mockMember.hasReachedLoanLimit()).andReturn(true).once();
+		
 		//BookDAO.getbook
 		IBook book = createNiceMock(IBook.class);
 		expect(mockBookDao.getBookByID(bookId)).andReturn(book);
 		//LoanDAO.addPendingLoan
 		expect(mockLoanDao.createPendingLoan(EasyMock.anyObject(IMember.class), EasyMock.anyObject(IBook.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class))).andReturn(EasyMock.anyObject(ILoan.class));
 		//Member.hasReachedLoanLimit
-//		expect(mockMember.hasReachedLoanLimit()).andReturn(true).once();
+//		expect(mockMember.hasReachedLoanLimit()).andReturn(true).anyTimes();
 		//UI.displaybook
 		mockBorrowUI.displayBook(book);
 		expectLastCall().once();
