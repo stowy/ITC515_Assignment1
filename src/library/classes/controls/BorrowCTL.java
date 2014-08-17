@@ -132,8 +132,13 @@ public class BorrowCTL implements IBorrowCTL {
 //	UI.state = BORROWING UI.scanBook called
 	@Override
 	public void scanNext() {
-		// TODO Auto-generated method stub
-
+		if(member.hasReachedLoanLimit()) {
+			List<ILoan> loans = loanDao.getPendingList(member);
+			borrowUI.setState(State.COMPLETED);
+			borrowUI.displayCompletedList(loans);
+		} else {
+			borrowUI.scanBook();
+		}
 	}
 
 //	Sig : scansCompleted
