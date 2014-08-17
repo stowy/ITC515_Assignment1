@@ -405,12 +405,37 @@ public class TestBorrowCTL {
 
 //	Sig: confirmPendingList
 //	Pre: CTL.state = COMPLETED
-//	UI.state = COMPLETED Post: CTL.state = CONFIRMED
+//	UI.state = COMPLETED 
+//	Post: CTL.state = CONFIRMED
 //	UI.state = CONFIRMED
-//	Every loan commited. TempLoanList cleared/deleted Member has ref to every Loan Book has ref to relevant Loan UI.printLoanSlip called 
+//	Every loan commited. 
+//	TempLoanList cleared/deleted Member has ref to every 
+//	Loan Book has ref to relevant Loan 
+//	UI.printLoanSlip called 
 	@Test
 	public void testConfirmPendingList() {
-		fail("Not yet implemented");
+		//assert UI setState CONFIRMED
+		mockBorrowUI.setState(State.CONFIRMED);
+		expectLastCall().once();
+		//assert that get pending list is called
+		List<ILoan> list = new ArrayList<ILoan>();
+		expect(mockLoanDao.getPendingList(EasyMock.anyObject(IMember.class))).andReturn(list);
+		//assert loan commit pending loans
+		mockLoanDao.commitPendingLoans(EasyMock.anyObject(IMember.class));
+		expectLastCall().once();
+		//assert assert print loan slip
+		mockBorrowUI.printLoanSlip();
+		expectLastCall().once();
+		
+		replay(mockLoanDao);
+		replay(mockBorrowUI);
+		
+		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
+		borrowCTL.confirmPendingList();
+		
+		verify(mockLoanDao);
+		verify(mockBorrowUI);
+		
 	}
 
 //	Sig : borrowUCended
