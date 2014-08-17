@@ -58,8 +58,9 @@ public class BorrowCTL implements IBorrowCTL {
 //	UI.state = ENDED TempLoanList cleared/deleted
 	@Override
 	public void cancel() {
-		// TODO Auto-generated method stub
-
+		this.state = State.CANCELLED;
+		borrowUI.setState(State.CANCELLED);
+		loanDao.clearPendingLoans(member);
 	}
 
 //	Sig: Borrower = cardScanned(borrowerID)
@@ -189,8 +190,8 @@ public class BorrowCTL implements IBorrowCTL {
 //	UI.state = ENDED
 	@Override
 	public void borrowUCended() {
-		// TODO Auto-generated method stub
-
+		this.state = State.ENDED;
+		borrowUI.setState(State.ENDED);
 	}
 
 }
