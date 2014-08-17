@@ -328,7 +328,46 @@ public class TestBorrowCTL {
 //	UI.displayCompletedList called
 	@Test
 	public void testScansCompleted() {
-		fail("Not yet implemented");
+
+		int memberId = 1;
+		//Expect		
+		//inject mockMember dependency
+		IMember mockMember = createNiceMock(IMember.class);
+		expect(mockMemberDao.getMemberByID(memberId)).andReturn(mockMember);
+	
+		//assert set state completed is called
+		mockBorrowUI.setState(State.COMPLETED);
+		expectLastCall().once();
+		//assert that get pending list is called
+		List<ILoan> list = new ArrayList<ILoan>();
+		expect(mockLoanDao.getPendingList(mockMember)).andReturn(list);
+		//assert that display completed list is called
+		mockBorrowUI.displayCompletedList(list);
+		expectLastCall().once();
+		
+		//Replay
+		replay(mockMember);
+		replay(mockMemberDao);
+		replay(mockLoanDao);
+		replay(mockBorrowUI);
+		
+		//Perform Actions
+		//Set up preconditions
+		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
+		try {
+			borrowCTL.cardScanned(memberId);
+		} catch (BorrowerNotFoundException e) {
+			fail();
+		} 
+		
+		//Method under test
+		borrowCTL.scansCompleted();
+		
+		//Verify
+		verify(mockMember);
+		verify(mockMemberDao);
+		verify(mockLoanDao);
+		verify(mockBorrowUI);
 	}
 
 //	Sig : rejectPendingList

@@ -134,6 +134,7 @@ public class BorrowCTL implements IBorrowCTL {
 	public void scanNext() {
 		if(member.hasReachedLoanLimit()) {
 			List<ILoan> loans = loanDao.getPendingList(member);
+			this.state = State.COMPLETED;
 			borrowUI.setState(State.COMPLETED);
 			borrowUI.displayCompletedList(loans);
 		} else {
