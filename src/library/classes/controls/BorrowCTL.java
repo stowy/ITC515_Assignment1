@@ -176,8 +176,11 @@ public class BorrowCTL implements IBorrowCTL {
 //	Every loan commited. TempLoanList cleared/deleted Member has ref to every Loan Book has ref to relevant Loan UI.printLoanSlip called 
 	@Override
 	public void confirmPendingList() {
-		// TODO Auto-generated method stub
-
+		List<ILoan> committedLoans = loanDao.getPendingList(member);
+		loanDao.commitPendingLoans(member);
+		this.state = State.CONFIRMED;
+		borrowUI.setState(State.CONFIRMED);
+		borrowUI.printLoanSlip();
 	}
 
 //	Sig : borrowUCended
