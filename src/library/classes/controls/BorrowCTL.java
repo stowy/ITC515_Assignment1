@@ -149,7 +149,10 @@ public class BorrowCTL implements IBorrowCTL {
 //	UI.state = COMPLETED UI.displayCompletedList called
 	@Override
 	public void scansCompleted() {
-		// TODO Auto-generated method stub
+		List<ILoan> loans = loanDao.getPendingList(member);
+		this.state = State.COMPLETED;
+		borrowUI.setState(State.COMPLETED);
+		borrowUI.displayCompletedList(loans);
 
 	}
 
