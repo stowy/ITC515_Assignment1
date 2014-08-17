@@ -82,10 +82,26 @@ public class TestBorrowCTL {
 //	CTL.state = ANY
 //	UI.state = ANY 
 //	Post: CTL.state = ENDED
-//	UI.state = ENDED TempLoanList cleared/deleted
+//	UI.state = ENDED 
+//	TempLoanList cleared/deleted
 	@Test
 	public void testCancel() {
-		fail("Not yet implemented");
+
+		//assert clear pending list
+		mockLoanDao.clearPendingLoans(EasyMock.anyObject(IMember.class));
+		expectLastCall().once();
+		//assert set state cancelled
+		mockBorrowUI.setState(State.CANCELLED);
+		expectLastCall().once();
+		
+		replay(mockBorrowUI);
+		replay(mockLoanDao);
+		
+		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
+		borrowCTL.cancel();
+		
+		verify(mockBorrowUI);
+		verify(mockLoanDao);
 	}
 
 //	Sig: Borrower = cardScanned(borrowerID)
@@ -396,7 +412,6 @@ public class TestBorrowCTL {
 		replay(mockBorrowUI);
 		
 		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
-		
 		borrowCTL.rejectPendingList();
 		
 		verify(mockLoanDao);
@@ -444,7 +459,17 @@ public class TestBorrowCTL {
 //	UI.state = ENDED
 	@Test
 	public void testBorrowUCended() {
-		fail("Not yet implemented");
+		
+		//assert set state ended
+		mockBorrowUI.setState(State.ENDED);
+		expectLastCall().once();
+		
+		replay(mockBorrowUI);
+		
+		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
+		borrowCTL.borrowUCended();
+		
+		verify(mockBorrowUI);
 	}
 
 }
