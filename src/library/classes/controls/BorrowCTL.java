@@ -162,8 +162,11 @@ public class BorrowCTL implements IBorrowCTL {
 //	UI.state = BORROWING TempLoanList cleared/deleted
 	@Override
 	public void rejectPendingList() {
-		// TODO Auto-generated method stub
-
+		loanDao.clearPendingLoans(member);
+		loanDao.createNewPendingList(member);
+		this.state = State.BORROWING;
+		borrowUI.setState(State.BORROWING);
+		borrowUI.scanBook();
 	}
 
 //	Sig: confirmPendingList
