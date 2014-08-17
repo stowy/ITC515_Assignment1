@@ -10,7 +10,7 @@ public interface IBorrowCTL {
 	
 	public void cancel();
 	
-	public IMember cardScanned(int memberID) throws BorrowerNotFoundException;
+	public void cardScanned(int memberID) throws BorrowerNotFoundException;
 	
 	public void bookScanned(int bookID) throws BookNotFoundException;
 	

@@ -74,7 +74,7 @@ public class BorrowCTL implements IBorrowCTL {
 //			CTL.state = BORROWING
 //			UI.state = BORROWING tempLoanList created. UI.scanBook called
 	@Override
-	public IMember cardScanned(int memberID) throws BorrowerNotFoundException {
+	public void cardScanned(int memberID) throws BorrowerNotFoundException {
 		member = memberDao.getMemberByID(memberID);
 		if (member == null) {
 			throw new BorrowerNotFoundException();
@@ -91,8 +91,6 @@ public class BorrowCTL implements IBorrowCTL {
 			loanDao.createNewPendingList(member);
 			borrowUI.scanBook();
 		}
-		
-		return member;
 	}
 
 //	Sig : bookScanned(bookID)
