@@ -169,7 +169,6 @@ public class TestBorrowCTL {
 //	Rules: if atLoanLimit:
 //	CTL.state = COMPLETED
 //	UI.state = COMPLETED
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testBookScanned() {
 		int memberId = 1;
@@ -190,7 +189,7 @@ public class TestBorrowCTL {
 		//LoanDAO.addPendingLoan
 		expect(mockLoanDao.createPendingLoan(EasyMock.anyObject(IMember.class), EasyMock.anyObject(IBook.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class))).andReturn(EasyMock.anyObject(ILoan.class));
 		//Member.hasReachedLoanLimit
-//		expect(mockMember.hasReachedLoanLimit()).andReturn(true).anyTimes();
+
 		//UI.displaybook
 		mockBorrowUI.displayBook(book);
 		expectLastCall().once();
@@ -233,18 +232,100 @@ public class TestBorrowCTL {
 
 //	Sig: scanNext
 //	Pre: CTL.state = BORROWING
-//	UI.state = BORROWING Post: CTL.state = BORROWING
+//	UI.state = BORROWING 
+//	Post: CTL.state = BORROWING
 //	UI.state = BORROWING UI.scanBook called
 	@Test
-	public void testScanNext() {
-		fail("Not yet implemented");
+	public void testScanNextContinueBorrowing() {
+		
+		int memberId = 1;
+		//Expect		
+		IMember mockMember = createNiceMock(IMember.class);
+		expect(mockMemberDao.getMemberByID(memberId)).andReturn(mockMember);
+		
+		//assert that user at loan limit is checked (return false)
+		expect(mockMember.hasReachedLoanLimit()).andReturn(false).times(2);
+		//assert that scan book is called
+		mockBorrowUI.scanBook();
+		expectLastCall().once();
+		
+		//Replay
+		replay(mockMember);
+		replay(mockMemberDao);
+		replay(mockBorrowUI);
+		
+		//Perform Actions
+		//Set up preconditions
+		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
+		try {
+			borrowCTL.cardScanned(memberId);
+		} catch (BorrowerNotFoundException e) {
+			fail();
+		} 
+		
+		//Method under test
+		borrowCTL.scanNext();
+		
+		//Verify
+		verify(mockMember);
+		verify(mockMemberDao);
+		verify(mockBorrowUI);
+	}
+	
+	@Test
+	public void testScanNextAtLoanLimit() {
+		
+		int memberId = 1;
+		//Expect		
+		IMember mockMember = createNiceMock(IMember.class);
+		expect(mockMemberDao.getMemberByID(memberId)).andReturn(mockMember);
+		
+		//assert that user at loan limit is checked (return true)
+		expect(mockMember.hasReachedLoanLimit()).andReturn(false).once();
+		expect(mockMember.hasReachedLoanLimit()).andReturn(true).once();
+
+		//assert set state completed is called
+		mockBorrowUI.setState(State.COMPLETED);
+		expectLastCall().once();
+		//asert that get pending list is called
+		List<ILoan> list = new ArrayList<ILoan>();
+		expect(mockLoanDao.getPendingList(mockMember)).andReturn(list);
+		//assert that display completed list is called
+		mockBorrowUI.displayCompletedList(list);
+		expectLastCall().once();
+		
+		//Replay
+		replay(mockMember);
+		replay(mockMemberDao);
+		replay(mockLoanDao);
+		replay(mockBorrowUI);
+		
+		//Perform Actions
+		//Set up preconditions
+		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
+		try {
+			borrowCTL.cardScanned(memberId);
+		} catch (BorrowerNotFoundException e) {
+			fail();
+		} 
+		
+		//Method under test
+		borrowCTL.scanNext();
+		
+		//Verify
+		verify(mockMember);
+		verify(mockMemberDao);
+		verify(mockLoanDao);
+		verify(mockBorrowUI);
 	}
 
 //	Sig : scansCompleted
 //	Pre: CTL.state = BORROWING
 //	UI.state = BORROWING
-//	tempLoanList exists Post: CTL.state = COMPLETED
-//	UI.state = COMPLETED UI.displayCompletedList called
+//	tempLoanList exists 
+//	Post: CTL.state = COMPLETED
+//	UI.state = COMPLETED 
+//	UI.displayCompletedList called
 	@Test
 	public void testScansCompleted() {
 		fail("Not yet implemented");
