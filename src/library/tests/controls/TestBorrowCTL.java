@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import library.classes.controls.BorrowCTL;
+import library.classes.daos.LoanDAO;
 import library.classes.exceptions.BookNotFoundException;
 import library.classes.exceptions.BorrowerNotFoundException;
 import library.interfaces.controls.IBorrowCTL;
@@ -372,11 +373,34 @@ public class TestBorrowCTL {
 
 //	Sig : rejectPendingList
 //	CTL.state = COMPLETED
-//	UI.state = COMPLETED Post: CTL.state = BORROWING
-//	UI.state = BORROWING TempLoanList cleared/deleted
+//	UI.state = COMPLETED 
+//	Post: CTL.state = BORROWING
+//	UI.state = BORROWING 
+//	TempLoanList cleared/deleted
 	@Test
 	public void testRejectPendingList() {
-		fail("Not yet implemented");
+		//Expect
+		//assert clear pending list called
+		mockLoanDao.clearPendingLoans(EasyMock.anyObject(IMember.class));
+		expectLastCall().once();
+		//assert create new pending list called
+		mockLoanDao.createNewPendingList(EasyMock.anyObject(IMember.class));
+		expectLastCall().once();
+		//assert set state borrowing called
+		mockBorrowUI.setState(State.BORROWING);
+		expectLastCall().once();
+		mockBorrowUI.scanBook();
+		expectLastCall().once();
+		
+		replay(mockLoanDao);
+		replay(mockBorrowUI);
+		
+		borrowCTL = new BorrowCTL(mockMemberDao, mockBookDao, mockLoanDao, mockBorrowUI);
+		
+		borrowCTL.rejectPendingList();
+		
+		verify(mockLoanDao);
+		verify(mockBorrowUI);
 	}
 
 //	Sig: confirmPendingList
