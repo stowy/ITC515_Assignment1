@@ -2,7 +2,6 @@ package library.interfaces.controls;
 
 import library.classes.exceptions.BookNotFoundException;
 import library.classes.exceptions.BorrowerNotFoundException;
-import library.interfaces.entities.IMember;
 
 public interface IBorrowCTL {
 	

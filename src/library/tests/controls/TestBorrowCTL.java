@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 import library.classes.controls.BorrowCTL;
-import library.classes.daos.LoanDAO;
 import library.classes.exceptions.BookNotFoundException;
 import library.classes.exceptions.BorrowerNotFoundException;
 import library.interfaces.controls.IBorrowCTL;
