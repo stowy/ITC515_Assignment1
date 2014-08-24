@@ -43,6 +43,7 @@ public class LoanDAO implements ILoanDAO {
 		List<ILoan> pendingLoans = getPendingList(borrower);
 		ILoan loan = loanHelper.makeLoan(book, borrower, borrowDate, dueDate, nextId);
 		pendingLoans.add(loan);
+		borrower.addLoan(loan);
 		nextId++;
 		return loan;
 	}
@@ -62,7 +63,7 @@ public class LoanDAO implements ILoanDAO {
 		List<ILoan> pendingLoans = getPendingList(borrower);
 		for (ILoan loan : pendingLoans) {
 //			adds the loan to the borrower’s list of current loans
-			loan.getBorrower().addLoan(loan);
+			//loan already associated with borrower
 //			associates the loan with the book
 			loan.getBook().borrow(loan);
 			loan.commit();
@@ -70,12 +71,16 @@ public class LoanDAO implements ILoanDAO {
 			currentLoans.put(loan.getID(), loan);
 		}
 //		removes the pending loan list associated with the borrower from the pending list map
-		clearPendingLoans(borrower);
+		pendingLoans.clear();
 	}
 
 	@Override
 	public void clearPendingLoans(IMember borrower) throws IllegalArgumentException, RuntimeException {
 		List<ILoan> pendingLoans = getPendingList(borrower);
+		//Remove all pending loans from borrower list
+		for (ILoan pendingLoan : pendingLoans) {
+			borrower.removeLoan(pendingLoan);
+		}
 		pendingLoans.clear();
 	}
 
