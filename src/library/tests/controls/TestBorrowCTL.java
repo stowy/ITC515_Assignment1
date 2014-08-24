@@ -431,9 +431,6 @@ public class TestBorrowCTL {
 		//assert UI setState CONFIRMED
 		mockBorrowUI.setState(State.CONFIRMED);
 		expectLastCall().once();
-		//assert that get pending list is called
-		List<ILoan> list = new ArrayList<ILoan>();
-		expect(mockLoanDao.getPendingList(EasyMock.anyObject(IMember.class))).andReturn(list);
 		//assert loan commit pending loans
 		mockLoanDao.commitPendingLoans(EasyMock.anyObject(IMember.class));
 		expectLastCall().once();

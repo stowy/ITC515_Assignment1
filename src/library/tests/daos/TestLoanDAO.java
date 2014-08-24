@@ -173,7 +173,6 @@ public class TestLoanDAO {
 		//Set up expectations
 		int id = 1;
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
-		expect(mockLoan.getBorrower()).andReturn(mockMember);
 		expect(mockLoan.getBook()).andReturn(mockBook);
 		mockLoan.commit();
 		expectLastCall().once();
@@ -200,7 +199,6 @@ public class TestLoanDAO {
 		//Set up expectations
 		int id = 1;
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
-		expect(mockLoan.getBorrower()).andReturn(mockMember);
 		expect(mockLoan.getBook()).andReturn(mockBook).atLeastOnce();
 		mockLoan.commit();
 		expectLastCall().once();
@@ -231,7 +229,6 @@ public class TestLoanDAO {
 		//Set up expectations
 		int id = 1;
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
-		expect(mockLoan.getBorrower()).andReturn(mockMember);
 		expect(mockLoan.getBook()).andReturn(mockBook);
 		mockLoan.commit();
 		expectLastCall().once();
@@ -259,10 +256,10 @@ public class TestLoanDAO {
 		//Set up expectations
 		int id = 1;
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
-		expect(mockLoan.getBorrower()).andReturn(mockMember).atLeastOnce();
 		expect(mockLoan.getBook()).andReturn(mockBook);
 		mockLoan.commit();
 		expectLastCall().once();
+		expect(mockLoan.getBorrower()).andReturn(mockMember).atLeastOnce();
 		expect(mockLoan.getID()).andReturn(id);
 		
 		//Replay mocks
@@ -275,12 +272,13 @@ public class TestLoanDAO {
 		loanDAO.commitPendingLoans(mockMember);
 		
 		verify(mockLoanHelper);
-		verify(mockLoan);
 		
 		List<ILoan> actual = loanDAO.findLoansByBorrower(mockMember);
 		assertNotNull(actual);
 		assertEquals(1, actual.size());
 		assertTrue(actual.contains(mockLoan));
+		
+		verify(mockLoan);
 	}
 
 	@Test
@@ -289,7 +287,6 @@ public class TestLoanDAO {
 		int id = 1;
 		String title = "title";
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
-		expect(mockLoan.getBorrower()).andReturn(mockMember);
 		expect(mockLoan.getBook()).andReturn(mockBook).atLeastOnce();
 		mockLoan.commit();
 		expectLastCall().once();
@@ -324,7 +321,6 @@ public class TestLoanDAO {
 		//Set up expectations
 		int id = 1;
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
-		expect(mockLoan.getBorrower()).andReturn(mockMember);
 		expect(mockLoan.getBook()).andReturn(mockBook);
 		mockLoan.commit();
 		expectLastCall().once();
@@ -350,7 +346,6 @@ public class TestLoanDAO {
 		//Set up expectations
 		int id = 1;
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
-		expect(mockLoan.getBorrower()).andReturn(mockMember);
 		expect(mockLoan.getBook()).andReturn(mockBook);
 		mockLoan.commit();
 		expectLastCall().once();
