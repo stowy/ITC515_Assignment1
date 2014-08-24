@@ -380,9 +380,17 @@ public class TestBorrowCTL_DAOs_p3_7_12 {
 		borrowCTL.confirmPendingList();
 		
 		verify(mockBorrowUI);
-		 
-		assertTrue(pendingLoans.size() == 0);
-		assertFalse(pendingLoans.contains(pendingLoan));
+		
+		List<ILoan> newPendingLoans = null;
+		boolean exceptionCaught = false;
+		try {
+			newPendingLoans = loanDao.getPendingList(member);
+		} catch (RuntimeException e) {
+			exceptionCaught = true;
+		}
+		assertTrue(exceptionCaught);
+		assertNull(newPendingLoans);
+		
 		List<ILoan> currentLoans = loanDao.listLoans();
 		assertTrue(currentLoans.contains(pendingLoan));
 		

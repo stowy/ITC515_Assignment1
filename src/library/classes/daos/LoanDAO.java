@@ -71,7 +71,7 @@ public class LoanDAO implements ILoanDAO {
 			currentLoans.put(loan.getID(), loan);
 		}
 //		removes the pending loan list associated with the borrower from the pending list map
-		pendingLoans.clear();
+		pendingLoansByMember.remove(borrower);
 	}
 
 	@Override
