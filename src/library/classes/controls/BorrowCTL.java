@@ -57,7 +57,11 @@ public class BorrowCTL implements IBorrowCTL {
 	public void cancel() {
 		this.state = State.CANCELLED;
 		borrowUI.setState(State.CANCELLED);
-		loanDao.clearPendingLoans(member);
+		try {
+			loanDao.clearPendingLoans(member);
+		} catch (RuntimeException e) {
+			//There are no pending loans for user
+		}
 	}
 
 //	Sig: Borrower = cardScanned(borrowerID)

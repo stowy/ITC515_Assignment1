@@ -274,6 +274,7 @@ public class BorrowGuiUI extends JFrame implements IBorrowUI {
 			break;
 			
 		case CANCELLED: 
+			control.borrowUCended();
 			break;
 		
 		case STARTED:
@@ -407,8 +408,8 @@ public class BorrowGuiUI extends JFrame implements IBorrowUI {
 				try {
 					control.cardScanned(borrowerID);
 				} catch (BorrowerNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					lblErrMesg.setText(String.format("Borrower ID %d: not found",borrowerID));					
+					borrowerIDTF.setText("");
 				}
 			}
 			catch (NumberFormatException e) {
