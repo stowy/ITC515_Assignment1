@@ -104,6 +104,13 @@ public class TestLoan_LoanDAO_LoanHelper_p2_6 {
 		loanDAO.createPendingLoan(member, book, borrowDate, dueDate);
 	}
 	
+	@Test(expected=RuntimeException.class)
+	public void testCreatePendingLoanForBookTwice() {
+		loanDAO.createNewPendingList(member);
+		loanDAO.createPendingLoan(member, book, borrowDate, dueDate);
+		loanDAO.createPendingLoan(member, book, borrowDate, dueDate);
+	}
+	
 	@Test
 	public void testGetPendingList() {
 		loanDAO.createNewPendingList(member);

@@ -102,6 +102,7 @@ public class BorrowCTL implements IBorrowCTL {
 //	UI.state = COMPLETED
 	@Override
 	public void bookScanned(int bookID) throws BookNotFoundException {
+		List<ILoan> loanList = loanDao.getPendingList(member);
 		IBook book = bookDao.getBookByID(bookID);
 		if (book == null) {
 			throw new BookNotFoundException();
@@ -114,7 +115,6 @@ public class BorrowCTL implements IBorrowCTL {
 		calendar.add(Calendar.DAY_OF_YEAR, Loan.LOAN_PERIOD);
 		Date dueDate = calendar.getTime();
 		loanDao.createPendingLoan(member, book, now, dueDate);
-		List<ILoan> loanList = loanDao.getPendingList(member);
 		borrowUI.displayBook(book);
 		borrowUI.displayPendingList(loanList);
 		if (member.hasReachedLoanLimit()) {

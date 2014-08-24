@@ -11,6 +11,7 @@ import java.util.Map;
 
 import library.interfaces.daos.ILoanDAO;
 import library.interfaces.daos.ILoanHelper;
+import library.interfaces.entities.BookState;
 import library.interfaces.entities.IBook;
 import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
@@ -41,6 +42,13 @@ public class LoanDAO implements ILoanDAO {
 	public ILoan createPendingLoan(IMember borrower, IBook book,
 			Date borrowDate, Date dueDate) throws IllegalArgumentException, RuntimeException {
 		List<ILoan> pendingLoans = getPendingList(borrower);
+		if (book.getState() != BookState.AVAILABLE) throw new RuntimeException("Book not available");
+		for (ILoan loan : pendingLoans) {
+			if (loan.getBook().getID() == book.getID()) {
+				throw new RuntimeException("Book already in pending loan list");
+			}
+		}
+		
 		ILoan loan = loanHelper.makeLoan(book, borrower, borrowDate, dueDate, nextId);
 		pendingLoans.add(loan);
 		borrower.addLoan(loan);

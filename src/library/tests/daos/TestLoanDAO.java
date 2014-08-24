@@ -10,6 +10,7 @@ import java.util.List;
 import library.classes.daos.LoanDAO;
 import library.interfaces.daos.ILoanDAO;
 import library.interfaces.daos.ILoanHelper;
+import library.interfaces.entities.BookState;
 import library.interfaces.entities.IBook;
 import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
@@ -41,7 +42,7 @@ public class TestLoanDAO {
 		dueDate = calendar.getTime();
 		
 		mockLoan = createMock(ILoan.class);
-		mockBook = createMock(IBook.class);
+		mockBook = createNiceMock(IBook.class);
 		mockMember = createMock(IMember.class);
 	}
 
@@ -80,6 +81,8 @@ public class TestLoanDAO {
 	@Test
 	public void testCreatePendingLoan() {
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
+		expect(mockBook.getState()).andReturn(BookState.AVAILABLE);
+		replay(mockBook);
 		replay(mockLoanHelper);
 		loanDAO.createNewPendingList(mockMember);
 		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
@@ -91,6 +94,23 @@ public class TestLoanDAO {
 	
 	@Test(expected=RuntimeException.class)
 	public void testCreatePendingLoanException() {
+		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testCreatePendingLoanForBookTwice() {
+		int bookId = 1;
+		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan).anyTimes();
+		expect(mockLoan.getBook()).andReturn(mockBook).anyTimes();
+		expect(mockBook.getID()).andReturn(bookId).anyTimes();
+		expect(mockBook.getState()).andReturn(BookState.AVAILABLE).anyTimes();
+	
+		replay(mockLoanHelper);
+		replay(mockLoan);
+		replay(mockBook);
+		
+		loanDAO.createNewPendingList(mockMember);
+		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
 		loanDAO.createPendingLoan(mockMember, mockBook, borrowDate, dueDate);
 	}
 	
@@ -114,6 +134,7 @@ public class TestLoanDAO {
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
 		expect(mockLoan.getBorrower()).andReturn(mockMember);
 		expect(mockLoan.getBook()).andReturn(mockBook);
+		expect(mockBook.getState()).andReturn(BookState.AVAILABLE).anyTimes();
 		mockMember.addLoan(mockLoan);
 		expectLastCall().once();
 		mockBook.borrow(mockLoan);
@@ -147,9 +168,11 @@ public class TestLoanDAO {
 	@Test
 	public void testClearPendingLoans() {
 		expect(mockLoanHelper.makeLoan(EasyMock.anyObject(IBook.class), EasyMock.anyObject(IMember.class), EasyMock.anyObject(Date.class), EasyMock.anyObject(Date.class), EasyMock.anyInt())).andReturn(mockLoan);
+		expect(mockBook.getState()).andReturn(BookState.AVAILABLE).anyTimes();
 		
 		//Replay mocks
 		replay(mockLoanHelper);
+		replay(mockBook);
 				
 		//Perform actions
 		loanDAO.createNewPendingList(mockMember);
@@ -177,10 +200,12 @@ public class TestLoanDAO {
 		mockLoan.commit();
 		expectLastCall().once();
 		expect(mockLoan.getID()).andReturn(id);
+		expect(mockBook.getState()).andReturn(BookState.AVAILABLE).anyTimes();
 		
 		//Replay mocks
 		replay(mockLoanHelper);
 		replay(mockLoan);
+		replay(mockBook);
 		
 		//Perform actions
 		loanDAO.createNewPendingList(mockMember);
@@ -203,10 +228,12 @@ public class TestLoanDAO {
 		mockLoan.commit();
 		expectLastCall().once();
 		expect(mockLoan.getID()).andReturn(id);
+		expect(mockBook.getState()).andReturn(BookState.AVAILABLE).anyTimes();
 		
 		//Replay mocks
 		replay(mockLoanHelper);
 		replay(mockLoan);
+		replay(mockBook);
 		
 		//Perform actions
 		loanDAO.createNewPendingList(mockMember);
@@ -233,10 +260,12 @@ public class TestLoanDAO {
 		mockLoan.commit();
 		expectLastCall().once();
 		expect(mockLoan.getID()).andReturn(id);
+		expect(mockBook.getState()).andReturn(BookState.AVAILABLE).anyTimes();
 		
 		//Replay mocks
 		replay(mockLoanHelper);
 		replay(mockLoan);
+		replay(mockBook);
 		
 		//Perform actions
 		loanDAO.createNewPendingList(mockMember);
@@ -261,10 +290,12 @@ public class TestLoanDAO {
 		expectLastCall().once();
 		expect(mockLoan.getBorrower()).andReturn(mockMember).atLeastOnce();
 		expect(mockLoan.getID()).andReturn(id);
+		expect(mockBook.getState()).andReturn(BookState.AVAILABLE).anyTimes();
 		
 		//Replay mocks
 		replay(mockLoanHelper);
 		replay(mockLoan);
+		replay(mockBook);
 		
 		//Perform actions
 		loanDAO.createNewPendingList(mockMember);
@@ -294,6 +325,7 @@ public class TestLoanDAO {
 		mockBook.borrow(mockLoan);
 		expectLastCall().once();
 		expect(mockBook.getTitle()).andReturn(title);
+		expect(mockBook.getState()).andReturn(BookState.AVAILABLE).anyTimes();
 		
 		//Replay mocks
 		replay(mockLoanHelper);
@@ -326,10 +358,12 @@ public class TestLoanDAO {
 		expectLastCall().once();
 		expect(mockLoan.getID()).andReturn(id);
 		expect(mockLoan.checkOverDue(EasyMock.anyObject(Date.class))).andReturn(true);
+		expect(mockBook.getState()).andReturn(BookState.AVAILABLE).anyTimes();
 		
 		//Replay mocks
 		replay(mockLoanHelper);
 		replay(mockLoan);
+		replay(mockBook);
 		
 		//Perform actions
 		loanDAO.createNewPendingList(mockMember);
@@ -351,10 +385,12 @@ public class TestLoanDAO {
 		expectLastCall().once();
 		expect(mockLoan.getID()).andReturn(id);
 		expect(mockLoan.isOverDue()).andReturn(true);
+		expect(mockBook.getState()).andReturn(BookState.AVAILABLE).anyTimes();
 		
 		//Replay mocks
 		replay(mockLoanHelper);
 		replay(mockLoan);
+		replay(mockBook);
 		
 		//Perform actions
 		loanDAO.createNewPendingList(mockMember);
