@@ -5,7 +5,7 @@ import library.classes.exceptions.BorrowerNotFoundException;
 
 public interface IBorrowCTL {
 	
-	public static enum State { STARTED, BORROWING, DISALLOWED, COMPLETED, CONFIRMED, CANCELLED, ENDED };
+	public static enum State { CREATED, STARTED, BORROWING, DISALLOWED, COMPLETED, CONFIRMED, CANCELLED, ENDED };
 	
 	public void cancel();
 	

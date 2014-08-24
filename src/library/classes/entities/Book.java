@@ -28,6 +28,12 @@ public class Book implements IBook {
 	}
 	
 	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Author: " + author + ", Title: " + title + "Call number: " + callNumber + ", State: " + state.toString();
+	}
+	
+	@Override
 	public void borrow(ILoan loan) throws RuntimeException {
 		if (this.state != BookState.AVAILABLE) {
 			throw new RuntimeException("Book not avaialable");

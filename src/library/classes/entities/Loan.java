@@ -34,6 +34,12 @@ public class Loan implements ILoan {
 	}
 	
 	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Book: " + book.getTitle() + ",\nDue: " + dueDate.toString() + ", \nLoanId: " + loanId + ",\nState: " + state.toString();
+	}
+	
+	@Override
 	public void commit() {
 		if (this.state != LoanState.PENDING) {
 			throw new RuntimeException("Loan not pending");

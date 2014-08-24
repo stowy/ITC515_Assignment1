@@ -6,9 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.easymock.EasyMock;
-
-import library.classes.daos.LoanDAO;
 import library.classes.entities.Loan;
 import library.classes.exceptions.BookNotFoundException;
 import library.classes.exceptions.BorrowerNotFoundException;
@@ -177,7 +174,7 @@ public class BorrowCTL implements IBorrowCTL {
 //	Every loan commited. TempLoanList cleared/deleted Member has ref to every Loan Book has ref to relevant Loan UI.printLoanSlip called 
 	@Override
 	public void confirmPendingList() {
-		List<ILoan> committedLoans = loanDao.getPendingList(member);
+//		List<ILoan> committedLoans = loanDao.getPendingList(member);
 		loanDao.commitPendingLoans(member);
 		this.state = State.CONFIRMED;
 		borrowUI.setState(State.CONFIRMED);
