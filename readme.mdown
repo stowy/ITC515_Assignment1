@@ -1,21 +1,14 @@
-# Layout of packages and resources in this repository
+### Layout of packages and resources in this repository
 
-### src Folder
+This repository contains the following packages:
 
-This repository contains the following packages within the src folder:
-
-- library.classes.* - All the classes implementing the interfaces
-- library.interfaces.* - The provided library interface files
-- library.tests.* - All the tests, broken down as follows:
+- src/library.classes.* - All the classes implementing the interfaces
+- src/library.interfaces.* - The provided library interface files
+- src/library.tests.* - All the tests, broken down as follows:
 	- library.tests.unit.* - All unit tests
 	- library.tests.integration.* - All integration tests
 	- library.tests.uat - Classes used to run UAT tests
 	- library.tests.suites - Suites to run all unit tests and all integration tests
-	
-### Other resources
-
-The other areas included in the repository are:
-
 - assets/uat - Contains the word document outlining all UAT tests specified and the results obtain.
 - libs - All dependencies required in running the tests and application
 
