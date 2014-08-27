@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import library.classes.exceptions.BookNotFoundException;
 import library.classes.exceptions.BorrowerNotFoundException;
 import library.interfaces.controls.IBorrowCTL;
+import library.interfaces.controls.IBorrowCTL.State;
 import library.interfaces.entities.IBook;
 import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
@@ -235,6 +236,8 @@ public class BorrowGuiUI extends JFrame implements IBorrowUI {
 		});
 		btnContinue.setBounds(233, 134, 89, 23);
 		contentPane.add(btnContinue);
+		
+		setState(State.CREATED);
 	}
 
 	@Override
@@ -352,7 +355,7 @@ public class BorrowGuiUI extends JFrame implements IBorrowUI {
 	@Override
 	public void displayBook(IBook book) {
 		//System.err.printf("BorrowUI : displayBook\n");
-		currentBookTA.setText(((library.classes.entities.Book)book).toString());
+		currentBookTA.setText(book.toString());
 		currentBookTA.setCaretPosition(0);
 		
 	}
@@ -441,8 +444,7 @@ public class BorrowGuiUI extends JFrame implements IBorrowUI {
 				try {
 					control.bookScanned(bookID);
 				} catch (BookNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					lblErrMesg.setText(String.format("Book ID %d: not found",bookID));
 				}
 				btnScan.setEnabled(false);
 				btnContinue.setEnabled(true);
