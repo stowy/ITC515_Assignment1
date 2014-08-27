@@ -2,14 +2,14 @@
 -------------
 This repository contains the following packages:
 
-- **src/library.classes.*** - All the classes implementing the interfaces
-- **src/library.interfaces.*** - The provided library interface files
-- **src/library.tests.*** - All the tests, broken down as follows:
-	- __library.tests.unit.*__ - All unit tests
-	- __library.tests.integration.*__ - All integration tests
-	- __library.tests.uat__ - Classes used to run UAT tests
-	- __library.tests.suites__ - Suites to run all unit tests and all integration tests
-- **assets/uat** - Contains the word document outlining all UAT tests specified and the results obtain.
-- **libs** - All dependencies required in running the tests and application
-
-
+|Path | Explanation
+| ------------- |:-------------|
+| **src/library.classes.*** | All the classes implementing the interfaces |
+| **src/library.interfaces.*** | The provided library interface files |
+| **src/library.tests.*** | All the tests, broken down as follows: |
+||  __library.tests.unit.*__   - All unit tests |
+|| __library.tests.integration.*__   - All integration tests |
+|| __library.tests.uat__  - Classes used to run UAT tests |
+|| __library.tests.suites__ - Suites to run all unit tests and all integration tests |
+| **assets/uat** | Contains the word document outlining all UAT tests specified and the results  obtained. |
+| **libs**        | All dependencies required in running the tests and application  |
