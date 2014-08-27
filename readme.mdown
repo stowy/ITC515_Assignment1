@@ -1,6 +1,6 @@
-* Layout of packages and resources in this repository
+# Layout of packages and resources in this repository
 
-*** src Folder
+### src Folder
 
 This repository contains the following packages within the src folder:
 
@@ -12,7 +12,7 @@ This repository contains the following packages within the src folder:
 	- library.tests.uat - Classes used to run UAT tests
 	- library.tests.suites - Suites to run all unit tests and all integration tests
 	
-*** Other resources
+### Other resources
 
 The other areas included in the repository are:
 
