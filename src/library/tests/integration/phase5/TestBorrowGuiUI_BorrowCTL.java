@@ -36,6 +36,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+@SuppressWarnings(value = { "unused" })
 public class TestBorrowGuiUI_BorrowCTL {
 
 	//Set up internal reflect fields.
