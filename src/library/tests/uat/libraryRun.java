@@ -1,8 +1,8 @@
 package library.tests.uat;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+//import java.util.Calendar;
+//import java.util.Date;
 import java.util.List;
 
 import library.classes.controls.BorrowCTL;
@@ -12,18 +12,18 @@ import library.classes.daos.LoanDAO;
 import library.classes.daos.LoanHelper;
 import library.classes.daos.MemberDAO;
 import library.classes.daos.MemberHelper;
-import library.classes.entities.Loan;
-import library.classes.entities.Member;
-import library.classes.exceptions.BookNotFoundException;
-import library.classes.exceptions.BorrowerNotFoundException;
+//import library.classes.entities.Loan;
+//import library.classes.entities.Member;
+//import library.classes.exceptions.BookNotFoundException;
+//import library.classes.exceptions.BorrowerNotFoundException;
 import library.classes.uis.BorrowGuiUI;
-import library.interfaces.controls.IBorrowCTL.State;
 import library.interfaces.entities.IBook;
-import library.interfaces.entities.ILoan;
+//import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
 
 public class libraryRun {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		MemberDAO memberDao = new MemberDAO(new MemberHelper());
 		BookDAO bookDao = new BookDAO(new BookHelper());
@@ -42,11 +42,11 @@ public class libraryRun {
 		books.add(bookDao.addBook("Sian Whiley", "Love is Forever Again", "0005"));
 		
 		//User has reached loan limit
-		Calendar calendar = Calendar.getInstance();
-		Date borrowDate = calendar.getTime();
-		calendar.add(Calendar.DAY_OF_YEAR, ILoan.LOAN_PERIOD);
-		Date dueDate = calendar.getTime();
-		loanDao.createNewPendingList(member);
+//		Calendar calendar = Calendar.getInstance();
+//		Date borrowDate = calendar.getTime();
+//		calendar.add(Calendar.DAY_OF_YEAR, ILoan.LOAN_PERIOD);
+//		Date dueDate = calendar.getTime();
+//		loanDao.createNewPendingList(member);
 //		for (IBook book : books) {
 //			loanDao.createPendingLoan(member, book, borrowDate, dueDate);
 //		}
@@ -68,9 +68,6 @@ public class libraryRun {
 		BorrowGuiUI ui = new BorrowGuiUI();
 		BorrowCTL ctl = new BorrowCTL(memberDao, 
 				bookDao, loanDao, ui);
-		
-		ui.initialise(ctl);
-		ui.setState(State.STARTED);
 	}
 
 }
