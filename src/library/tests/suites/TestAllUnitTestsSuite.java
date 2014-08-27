@@ -10,6 +10,7 @@ import library.tests.unit.daos.TestMemberHelper;
 import library.tests.unit.entities.TestBook;
 import library.tests.unit.entities.TestLoan;
 import library.tests.unit.entities.TestMember;
+import library.tests.unit.uis.TestBorrowGuiUI;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -25,7 +26,8 @@ import org.junit.runners.Suite;
 	TestMemberDAO.class,
 	TestLoanHelper.class,
 	TestLoanDAO.class,
-	TestBorrowCTL.class
+	TestBorrowCTL.class,
+	TestBorrowGuiUI.class
 })
 
 
