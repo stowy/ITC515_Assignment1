@@ -1,4 +1,4 @@
-package library.tests.daos;
+package library.tests.unit.daos;
 
 import static org.easymock.EasyMock.createMock;
 import static org.junit.Assert.*;

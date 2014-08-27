@@ -1,4 +1,4 @@
-package library.tests.daos;
+package library.tests.unit.daos;
 
 import static org.junit.Assert.*;
 import library.classes.daos.BookHelper;

@@ -1,4 +1,4 @@
-package library.tests.controls;
+package library.tests.unit.controls;
 
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;

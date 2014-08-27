@@ -1,4 +1,4 @@
-package library.tests.entities;
+package library.tests.unit.entities;
 
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
