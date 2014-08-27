@@ -1,15 +1,15 @@
 package library.tests.suites;
 
-import library.tests.controls.TestBorrowCTL;
-import library.tests.daos.TestBookDAO;
-import library.tests.daos.TestBookHelper;
-import library.tests.daos.TestLoanDAO;
-import library.tests.daos.TestLoanHelper;
-import library.tests.daos.TestMemberDAO;
-import library.tests.daos.TestMemberHelper;
-import library.tests.entities.TestBook;
-import library.tests.entities.TestLoan;
-import library.tests.entities.TestMember;
+import library.tests.unit.controls.TestBorrowCTL;
+import library.tests.unit.daos.TestBookDAO;
+import library.tests.unit.daos.TestBookHelper;
+import library.tests.unit.daos.TestLoanDAO;
+import library.tests.unit.daos.TestLoanHelper;
+import library.tests.unit.daos.TestMemberDAO;
+import library.tests.unit.daos.TestMemberHelper;
+import library.tests.unit.entities.TestBook;
+import library.tests.unit.entities.TestLoan;
+import library.tests.unit.entities.TestMember;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
