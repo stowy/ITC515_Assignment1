@@ -1,0 +1,37 @@
+Beacons have three proximity options:
+
+Immediate –less than 1 meter (a little over 3 feet) <br/>
+Near – less than 5 meters (about 16½ feet) <br/>
+Far – more than 5 meters
+
+For more detailed specs see https://kontaktio.zendesk.com/hc/en-gb/articles/201621521-Transmission-power-Range-and-RSSI. This states: <br/> <br/>
+"The maximum range of the broadcast signal depends on the transmission power setting, as well as environment factors.  Signals can suffer interference, be diffracted or absorbed.  <br/> <br/>
+The kontakt.io default transmission power is set to -12 dBm Transmission power can be adjusted by the user with the Kontakt.io iOS app (values 0-7 as shown below)." <br/> <br/>
+
+**Effect of advertising interval on battery life** <br/>
+
+|Interval	|Interval used in:	|Tx Power|	Expected range|	Expected Battery life1
+| ------------- |:-------------|:-------------|:-------------|:-------------|
+|100ms	|Apple iBeacon profile2|	-12 dBM|	35 m| 	Up to 7 months <br/>
+|350ms	|Kontakt Beacon profile2	|-12 dBM|	35 m|	Up to 2 years <br/>
+|1000ms	 |	|-12 dBM|	35 m 	|Up to 4 years <br/>
+(from https://kontaktio.zendesk.com/hc/en-gb/articles/201567802-Advertising-Interval) <br/> <br/>
+
+Here is found info on the beacon properties - UUID, major and minor: <br/>
+
+https://kontaktio.zendesk.com/hc/en-gb/articles/201620741-Beacon-Parameters-UUID-Major-and-Minor <br/>
+
+**UUID**
+The purpose of the ID is to distinguish beacons in your network, from all other beacons in networks outside your control. By default you will be assigned only one UUID when ordering Beacons, which is linked to your account.
+
+**Major and Minor values**
+
+Major and Minor values are numbers assigned to your beacons, in order to identify them with greater accuracy than using UUID alone.
+
+Minor and Major are unsigned integer values between 1 and 65535.
+
+**How to use UUID, Major and Minor values**
+
+Major values are intended to identify and distinguish a group – for example all beacons in on a certain floor or room in your venue could be assigned a unique major value.
+
+Minor values are intended to identify and distinguish an individual – for example distinguishing individual beacons within a group of beacons assigned a major value.
